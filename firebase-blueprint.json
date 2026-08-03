@@ -1,0 +1,18 @@
+{
+  "collections": [
+    {
+      "name": "projects",
+      "description": "Stores the portfolio projects (websites and apps)",
+      "fields": [
+        { "name": "type", "type": "string", "description": "'website' or 'app'" },
+        { "name": "name", "type": "string", "description": "Name of the project" },
+        { "name": "image", "type": "string", "description": "Cloudinary image URL" },
+        { "name": "description", "type": "map", "description": "Map containing 'en', 'fr', 'ar' strings" },
+        { "name": "website", "type": "string", "description": "Website URL (optional)" },
+        { "name": "demo", "type": "string", "description": "Demo URL (optional)" },
+        { "name": "maps", "type": "string", "description": "Google Maps URL (optional)" },
+        { "name": "createdAt", "type": "timestamp", "description": "Creation timestamp" }
+      ]
+    }
+  ]
+}
