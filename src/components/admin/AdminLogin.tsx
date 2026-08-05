@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -17,22 +16,10 @@ export const AdminLogin = () => {
     if (username === 'sami' && password === '2006') {
       setLoading(true);
       try {
-        // We map the dummy credentials to a real Firebase auth user behind the scenes
-        try {
-          await signInWithEmailAndPassword(auth, 'sami@admin.com', 'admin2006');
-        } catch (err: any) {
-          // If the user doesn't exist yet, we create it
-          if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-            await createUserWithEmailAndPassword(auth, 'sami@admin.com', 'admin2006');
-          } else {
-            throw err;
-          }
-        }
-        
         localStorage.setItem('adminToken', 'true'); // Keep token for UI state if needed
         navigate('/admin');
       } catch (err) {
-        console.error("Firebase auth error:", err);
+        console.error("Login error:", err);
         setError('Login failed. Please try again.');
       } finally {
         setLoading(false);

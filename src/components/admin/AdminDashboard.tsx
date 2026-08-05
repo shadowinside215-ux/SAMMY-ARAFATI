@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Edit2, Trash2, LogOut, Upload, Globe, MonitorPlay, MapPin, Loader2, Link } from 'lucide-react';
 import { Language } from '../../data/translations';
-import { db, auth } from '../../lib/firebase';
+import { db } from '../../lib/firebase';
 import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, orderBy } from 'firebase/firestore';
 
 interface Project {
@@ -47,24 +47,13 @@ export const AdminDashboard = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    // Check custom token and Firebase auth
     const token = localStorage.getItem('adminToken');
     if (!token) {
       navigate('/admin/login');
       return;
     }
     
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        fetchData();
-      } else {
-        // Not authenticated in Firebase, redirect
-        localStorage.removeItem('adminToken');
-        navigate('/admin/login');
-      }
-    });
-    
-    return () => unsubscribe();
+    fetchData();
   }, [navigate]);
 
   const fetchData = async () => {
@@ -107,7 +96,7 @@ export const AdminDashboard = () => {
         website: projectData.website || '',
         demo: projectData.demo || '',
         maps: projectData.maps || '',
-        type: activeTab
+        type: activeTab === 'websites' ? 'website' : 'app'
       };
 
       if (isNew) {
@@ -129,14 +118,9 @@ export const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      localStorage.removeItem('adminToken');
-      navigate('/admin/login');
-    } catch (error) {
-      console.error('Error signing out', error);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    navigate('/admin/login');
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,7 +249,7 @@ export const AdminDashboard = () => {
             <div key={project.id} className="bg-[#111] rounded-2xl border border-white/10 overflow-hidden flex flex-col">
               <div className="h-48 bg-[#222] relative border-b border-white/10 flex items-center justify-center p-4">
                  {project.image ? (
-                   <img src={project.image} alt={project.name} className={`${activeTab === 'websites' ? 'w-full h-full object-cover rounded-md' : 'h-full object-contain'}`} />
+                   <img src={project.image} alt={project.name} className="w-full h-full object-cover rounded-md" />
                  ) : (
                    <span className="text-white/30 text-sm">No Image</span>
                  )}
