@@ -15,7 +15,7 @@ export const Footer = () => {
         <div className="hidden md:flex gap-4">
           <span className="text-[10px] text-white/60 hover:text-white cursor-pointer transition-colors">WhatsApp</span>
           <span className="text-[10px] text-white/60 hover:text-white cursor-pointer transition-colors">Email</span>
-          <a href="/admin/login" className="text-[10px] text-white/60 hover:text-white cursor-pointer transition-colors">Admin</a>
+          {/* <a href="/admin/login" className="text-[10px] text-white/60 hover:text-white cursor-pointer transition-colors">Admin</a> */}
         </div>
       </div>
       <div className="flex items-center gap-4 text-xs font-medium">

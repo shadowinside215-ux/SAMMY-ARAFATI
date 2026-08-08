@@ -1,4 +1,6 @@
-export type Language = 'en' | 'fr' | 'ar';
+const fs = require('fs');
+
+const fileContent = `export type Language = 'en' | 'fr' | 'ar';
 
 export const translations = {
   en: {
@@ -181,7 +183,7 @@ export const translations = {
         setupPrice: "3 000 DH",
         monthlyPrice: "1 000 DH",
         features: [
-          "Applications web sur mesure et systèmes de gestion d\'entreprise.",
+          "Applications web sur mesure et systèmes de gestion d'entreprise.",
           "Développement/création à partir de 3 000 DH",
           "Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 1 000 DH/mois"
         ]
@@ -344,3 +346,6 @@ export const translations = {
     },
   },
 };
+`;
+
+fs.writeFileSync('src/data/translations.ts', fileContent);

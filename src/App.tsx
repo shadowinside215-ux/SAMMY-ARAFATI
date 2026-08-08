@@ -22,6 +22,10 @@ const Portfolio = () => (
       <Navbar />
       <main className="flex-1">
         <Hero />
+        <section className="pt-24 pb-8 max-w-7xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4">Portfolio</h2>
+          <div className="w-24 h-1 bg-[#B30000] mx-auto rounded-full"></div>
+        </section>
         <ProjectsSection type="website" />
         <ProjectsSection type="app" />
         <Services />
