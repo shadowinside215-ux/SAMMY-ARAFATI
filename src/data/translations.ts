@@ -59,7 +59,7 @@ export const translations = {
         ]
       },
       {
-        title: "Web Apps",
+        title: "Web, Play Store & App Store Apps",
         price: "from 3,000 DH",
         priceType: "starting-monthly",
         setupPrice: "3,000 DH",
@@ -112,7 +112,7 @@ export const translations = {
       button: 'Request My Free Demo',
     },
     footer: {
-      name: 'Sammy Arafati',
+      name: 'Sami Digital Solutions',
       tagline: 'Building Digital Solutions for Businesses',
       location: 'Morocco',
     },
@@ -175,7 +175,7 @@ export const translations = {
         ]
       },
       {
-        title: "Applications Web",
+        title: "Applications Web, Play Store & App Store",
         price: "dès 3 000 DH",
         priceType: "starting-monthly",
         setupPrice: "3 000 DH",
@@ -228,7 +228,7 @@ export const translations = {
       button: 'Demander Ma Démo Gratuite',
     },
     footer: {
-      name: 'Sammy Arafati',
+      name: 'Sami Digital Solutions',
       tagline: 'Création de Solutions Digitales pour les Entreprises',
       location: 'Maroc',
     },
@@ -287,7 +287,7 @@ export const translations = {
         ]
       },
       {
-        title: "تطبيقات الويب",
+        title: "تطبيقات الويب وبلاي ستور وآب ستور",
         price: "ابتداءً من 3,000 درهم",
         priceType: "starting-monthly",
         setupPrice: "3,000 درهم",
@@ -338,7 +338,7 @@ export const translations = {
       message: 'رسالة اختيارية',      messagePlaceholder: 'أخبرني قليلاً عن احتياجاتك...',      button: 'اطلب عرضي المجاني',
     },
     footer: {
-      name: 'Sammy Arafati',
+      name: 'Sami Digital Solutions',
       tagline: 'بناء الحلول الرقمية للشركات',
       location: 'المغرب',
     },

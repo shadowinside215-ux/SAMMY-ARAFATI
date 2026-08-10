@@ -42,7 +42,7 @@ export const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <a href="#home" className="text-xl font-bold tracking-tight uppercase text-white flex items-center gap-2">
-          Sammy Arafati
+          Sami Digital Solutions
         </a>
 
         {/* Desktop Nav */}
