@@ -3,11 +3,14 @@ import { motion } from 'motion/react';
 import { Globe, Menu, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { Language } from '../data/translations';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export const Navbar = () => {
   const { lang, setLang, t, isRtl } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +18,21 @@ export const Navbar = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'general');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists() && docSnap.data().logoUrl) {
+          setLogoUrl(docSnap.data().logoUrl);
+        }
+      } catch (error) {
+        console.error("Error fetching logo:", error);
+      }
+    };
+    fetchLogo();
   }, []);
 
   const navLinks = [
@@ -41,8 +59,19 @@ export const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <a href="#home" className="text-xl font-bold tracking-tight uppercase text-white flex items-center gap-2">
-          Sami Digital Solutions
+        <a 
+          href="#home" 
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="text-xl font-bold tracking-tight uppercase text-white flex items-center gap-2"
+        >
+          {logoUrl ? (
+            <img src={logoUrl} alt="Sami Digital Solutions" className="h-12 md:h-16 w-auto object-contain origin-left" />
+          ) : (
+            "Sami Digital Solutions"
+          )}
         </a>
 
         {/* Desktop Nav */}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit2, Trash2, LogOut, Upload, Globe, MonitorPlay, MapPin, Loader2, Link } from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import { Plus, Edit2, Trash2, LogOut, Upload, Globe, MonitorPlay, MapPin, Loader2, Link, Settings, Download } from 'lucide-react';
 import { Language } from '../../data/translations';
 import { db } from '../../lib/firebase';
-import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, serverTimestamp, orderBy } from 'firebase/firestore';
 
 interface Project {
   id: string;
@@ -26,7 +27,8 @@ export const AdminDashboard = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<ProjectsData>({ websites: [], apps: [] });
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'websites' | 'apps'>('websites');
+  const [activeTab, setActiveTab] = useState<'websites' | 'apps' | 'settings'>('websites');
+  const [logoUrl, setLogoUrl] = useState<string>('');
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +56,20 @@ export const AdminDashboard = () => {
     }
     
     fetchData();
+    fetchSettings();
   }, [navigate]);
+
+  const fetchSettings = async () => {
+    try {
+      const docRef = doc(db, 'settings', 'general');
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists() && docSnap.data().logoUrl) {
+        setLogoUrl(docSnap.data().logoUrl);
+      }
+    } catch (err) {
+      console.error('Failed to fetch settings', err);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -121,6 +136,47 @@ export const AdminDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     navigate('/');
+  };
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+    
+    if (!cloudName || !uploadPreset) {
+      alert("Cloudinary environment variables not set. Check .env.example");
+      setUploadingImage(false);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.secure_url) {
+        setLogoUrl(data.secure_url);
+        // Save to firestore immediately
+        await setDoc(doc(db, 'settings', 'general'), { logoUrl: data.secure_url }, { merge: true });
+        alert('Logo updated successfully!');
+      } else {
+        alert("Upload failed: " + (data.error?.message || "Unknown error"));
+      }
+    } catch (err) {
+      console.error('Upload failed', err);
+      alert('Image upload failed');
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,6 +254,28 @@ export const AdminDashboard = () => {
     saveData(formData, !editingProject);
   };
 
+  const downloadQRCodeAsPDF = () => {
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+    
+    pdf.setFontSize(22);
+    pdf.text("Sami Digital Solutions", 105, 40, { align: 'center' });
+    
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://sami-digital-solutions.vercel.app/';
+    img.onload = () => {
+      pdf.addImage(img, 'PNG', 55, 60, 100, 100);
+      pdf.save("sami-digital-solutions-qr.pdf");
+    };
+    img.onerror = () => {
+      alert("Failed to generate PDF due to image loading error.");
+    };
+  };
+
   if (loading) {
     return <div className="min-h-screen bg-[#090909] flex items-center justify-center text-white"><Loader2 className="animate-spin text-[#B30000]" size={48} /></div>;
   }
@@ -234,52 +312,116 @@ export const AdminDashboard = () => {
           >
             Apps
           </button>
-          
           <button 
-            onClick={() => openModal()}
-            className="ml-auto flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-colors"
+            className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === 'settings' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            onClick={() => setActiveTab('settings')}
           >
-            <Plus size={18} /> Add New {activeTab === 'websites' ? 'Website' : 'App'}
+            Settings
           </button>
+          
+          {activeTab !== 'settings' && (
+            <button 
+              onClick={() => openModal()}
+              className="ml-auto flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-colors"
+            >
+              <Plus size={18} /> Add New {activeTab === 'websites' ? 'Website' : 'App'}
+            </button>
+          )}
         </div>
 
         {/* Project List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data[activeTab].map(project => (
-            <div key={project.id} className="bg-[#111] rounded-2xl border border-white/10 overflow-hidden flex flex-col">
-              <div className="h-48 bg-[#222] relative border-b border-white/10 flex items-center justify-center p-4">
-                 {project.image ? (
-                   <img src={project.image} alt={project.name} className="w-full h-full object-cover rounded-md" />
-                 ) : (
-                   <span className="text-white/30 text-sm">No Image</span>
-                 )}
-              </div>
-              <div className="p-5 flex flex-col flex-grow">
-                <h3 className="font-bold text-lg mb-2">{project.name}</h3>
-                <p className="text-white/50 text-sm mb-4 line-clamp-2 flex-grow">{project.description?.en || ''}</p>
-                <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/5">
-                  <div className="flex gap-2">
-                    <button onClick={() => openModal(project)} className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-colors" title="Edit">
-                      <Edit2 size={16} />
-                    </button>
-                    <button onClick={() => handleDelete(project.id)} className="p-2 text-red-500/60 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors" title="Delete">
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                  <div className="flex gap-2 text-white/40">
-                    {(project.website || project.demo) && <Link size={16} />}
-                    {project.maps && <MapPin size={16} />}
+        {activeTab !== 'settings' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data[activeTab].map(project => (
+              <div key={project.id} className="bg-[#111] rounded-2xl border border-white/10 overflow-hidden flex flex-col">
+                <div className="h-48 bg-[#222] relative border-b border-white/10 flex items-center justify-center p-4">
+                   {project.image ? (
+                     <img src={project.image} alt={project.name} className="w-full h-full object-cover rounded-md" />
+                   ) : (
+                     <span className="text-white/30 text-sm">No Image</span>
+                   )}
+                </div>
+                <div className="p-5 flex flex-col flex-grow">
+                  <h3 className="font-bold text-lg mb-2">{project.name}</h3>
+                  <p className="text-white/50 text-sm mb-4 line-clamp-2 flex-grow">{project.description?.en || ''}</p>
+                  <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/5">
+                    <div className="flex gap-2">
+                      <button onClick={() => openModal(project)} className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-colors" title="Edit">
+                        <Edit2 size={16} />
+                      </button>
+                      <button onClick={() => handleDelete(project.id)} className="p-2 text-red-500/60 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors" title="Delete">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                    <div className="flex gap-2 text-white/40">
+                      {(project.website || project.demo) && <Link size={16} />}
+                      {project.maps && <MapPin size={16} />}
+                    </div>
                   </div>
                 </div>
               </div>
+            ))}
+            {data[activeTab].length === 0 && (
+              <div className="col-span-full py-12 text-center text-white/40 border border-dashed border-white/10 rounded-2xl">
+                No projects added yet. Click "Add New" to get started.
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Settings Panel */}
+        {activeTab === 'settings' && (
+          <div className="max-w-3xl mx-auto bg-[#111] border border-white/10 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold mb-8">Settings</h2>
+            
+            <div className="space-y-12">
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Globe size={20} className="text-[#B30000]" /> QR Code
+                </h3>
+                <p className="text-white/50 text-sm mb-2">Scan this QR code to visit your application.</p>
+                <div className="bg-white p-4 rounded-xl self-start flex flex-col items-center gap-4">
+                  <img 
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://sami-digital-solutions.vercel.app/" 
+                    alt="QR Code" 
+                    className="w-48 h-48"
+                  />
+                  <button 
+                    onClick={downloadQRCodeAsPDF}
+                    className="flex items-center gap-2 px-4 py-2 bg-[#B30000] text-white font-medium rounded-lg hover:bg-[#990000] transition-colors w-full justify-center"
+                  >
+                    <Download size={16} /> Download as PDF
+                  </button>
+                </div>
+              </div>
+
+              <div className="h-px bg-white/10 w-full"></div>
+
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Settings size={20} className="text-[#B30000]" /> Application Logo
+                </h3>
+                <p className="text-white/50 text-sm mb-4">Upload a logo to display in the navigation bar instead of text.</p>
+                
+                <div className="flex items-center gap-6">
+                  <label className="flex items-center justify-center gap-2 px-6 py-4 bg-white/5 border border-dashed border-white/20 rounded-xl cursor-pointer hover:bg-white/10 transition-colors w-64">
+                    <Upload size={20} /> {uploadingImage ? 'Uploading...' : 'Choose Logo Image'}
+                    <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} disabled={uploadingImage} />
+                  </label>
+
+                  {logoUrl && (
+                    <div className="flex flex-col gap-2">
+                      <span className="text-xs text-white/50 uppercase tracking-widest">Current Logo</span>
+                      <div className="bg-[#1a1a1a] p-4 rounded-lg border border-white/5 flex items-center justify-center h-20 w-48">
+                        <img src={logoUrl} alt="Current Logo" className="h-10 object-contain" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          ))}
-          {data[activeTab].length === 0 && (
-            <div className="col-span-full py-12 text-center text-white/40 border border-dashed border-white/10 rounded-2xl">
-              No projects added yet. Click "Add New" to get started.
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </main>
 
       {/* Modal */}
