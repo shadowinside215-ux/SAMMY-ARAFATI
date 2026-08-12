@@ -65,12 +65,15 @@ export const Navbar = () => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="text-xl font-bold tracking-tight uppercase text-white flex items-center gap-2"
+          className="text-xl font-bold tracking-tight uppercase text-white flex items-center gap-3"
         >
           {logoUrl ? (
-            <img src={logoUrl} alt="Sami Digital Solutions" className="h-12 md:h-16 w-auto object-contain origin-left" />
+            <>
+              <img src={logoUrl} alt="Sami's Digital Solutions" className="h-12 md:h-16 w-auto object-contain origin-left" />
+              <span className="hidden sm:inline-block tracking-widest text-lg">Sami's Digital Solutions</span>
+            </>
           ) : (
-            "Sami Digital Solutions"
+            "Sami's Digital Solutions"
           )}
         </a>
 
