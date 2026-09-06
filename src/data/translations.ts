@@ -69,15 +69,6 @@ export const translations = {
           "Development/setup starts at 3,000 DH",
           "Maintenance, hosting, updates, bug fixes, and ongoing support: 1,000 DH/month"
         ]
-      },
-      {
-        title: "Google Maps Setup",
-        price: "200 DH",
-        priceType: "one-time",
-        features: [
-          "Google Maps / Google Business location setup and integration.",
-          "One-time price: 200 DH"
-        ]
       }
     ],
     whyMe: [
@@ -185,15 +176,6 @@ export const translations = {
           "Développement/création à partir de 3 000 DH",
           "Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 1 000 DH/mois"
         ]
-      },
-      {
-        title: "Configuration Google Maps",
-        price: "200 DH",
-        priceType: "one-time",
-        features: [
-          "Configuration et intégration de Google Maps / Google Business.",
-          "Prix unique : 200 DH"
-        ]
       }
     ],
     whyMe: [
@@ -296,15 +278,6 @@ export const translations = {
           "تطبيقات ويب مخصصة وأنظمة إدارة الأعمال.",
           "التطوير/الإنشاء يبدأ من 3,000 درهم",
           "الصيانة، الاستضافة، التحديثات، إصلاح الأخطاء، والدعم المستمر: 1,000 درهم/شهرياً"
-        ]
-      },
-      {
-        title: "إعداد خرائط جوجل",
-        price: "200 درهم",
-        priceType: "one-time",
-        features: [
-          "إعداد ودمج خرائط جوجل / نشاطي التجاري على جوجل.",
-          "سعر الدفعة الواحدة: 200 درهم"
         ]
       }
     ],
