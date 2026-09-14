@@ -103,7 +103,7 @@ export const translations = {
       button: 'Request My Free Demo',
     },
     footer: {
-      name: 'Sami Digital Solutions',
+      name: "Sami's Digital Solutions",
       tagline: 'Building Digital Solutions for Businesses',
       location: 'Morocco',
     },
@@ -210,7 +210,7 @@ export const translations = {
       button: 'Demander Ma Démo Gratuite',
     },
     footer: {
-      name: 'Sami Digital Solutions',
+      name: "Sami's Digital Solutions",
       tagline: 'Création de Solutions Digitales pour les Entreprises',
       location: 'Maroc',
     },
@@ -311,7 +311,7 @@ export const translations = {
       message: 'رسالة اختيارية',      messagePlaceholder: 'أخبرني قليلاً عن احتياجاتك...',      button: 'اطلب عرضي المجاني',
     },
     footer: {
-      name: 'Sami Digital Solutions',
+      name: "Sami's Digital Solutions",
       tagline: 'بناء الحلول الرقمية للشركات',
       location: 'المغرب',
     },
