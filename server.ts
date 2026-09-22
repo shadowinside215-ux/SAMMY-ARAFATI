@@ -16,44 +16,9 @@ async function startServer() {
 
   // API Routes
   
-  // Dummy authentication
-  app.post("/api/auth/login", (req, res) => {
-    const { username, password } = req.body;
-    if (username === "sami" && password === "2006") {
-      res.json({ token: "admin-token", success: true });
-    } else {
-      res.status(401).json({ success: false, message: "Invalid username or password" });
-    }
-  });
-
-  const projectsFilePath = path.join(currentDir, 'src', 'data', 'projects.json');
-  
-  // Get projects
-  app.get("/api/projects", (req, res) => {
-    try {
-      const data = fs.readFileSync(projectsFilePath, 'utf8');
-      res.json(JSON.parse(data));
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to read projects" });
-    }
-  });
-
-  // Save projects (requires token)
-  app.post("/api/projects", (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (authHeader !== "Bearer admin-token") {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-    
-    try {
-      const newData = req.body;
-      fs.writeFileSync(projectsFilePath, JSON.stringify(newData, null, 2));
-      res.json({ success: true });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to save projects" });
-    }
+  // Health check endpoint
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
   });
 
   // Vite middleware for development

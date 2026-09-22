@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
-import { Plus, Edit2, Trash2, LogOut, Upload, Globe, MonitorPlay, MapPin, Loader2, Link, Settings, Download } from 'lucide-react';
+import { Plus, Edit2, Trash2, LogOut, Upload, Globe, MonitorPlay, MapPin, Loader2, Link, Settings, Download, ShieldCheck } from 'lucide-react';
 import { Language } from '../../data/translations';
-import { db } from '../../lib/firebase';
+import { db, auth } from '../../lib/firebase';
+import { signOut } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, serverTimestamp, orderBy } from 'firebase/firestore';
 
 interface Project {
@@ -48,11 +49,38 @@ export const AdminDashboard = () => {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const [authEmail, setAuthEmail] = useState<string>('');
+
   useEffect(() => {
+    const rawSession = localStorage.getItem('adminSession');
     const token = localStorage.getItem('adminToken');
-    if (!token) {
+    
+    // Check if session or Firebase user exists
+    if (!token && !rawSession && !auth.currentUser) {
       navigate('/admin/login');
       return;
+    }
+
+    if (rawSession) {
+      try {
+        const session = JSON.parse(rawSession);
+        if (session.expiresAt && Date.now() > session.expiresAt) {
+          localStorage.removeItem('adminSession');
+          localStorage.removeItem('adminToken');
+          navigate('/admin/login');
+          return;
+        }
+        if (session.user) {
+          setAuthEmail(session.user);
+        }
+      } catch {
+        localStorage.removeItem('adminSession');
+        localStorage.removeItem('adminToken');
+        navigate('/admin/login');
+        return;
+      }
+    } else if (auth.currentUser?.email) {
+      setAuthEmail(auth.currentUser.email);
     }
     
     fetchData();
@@ -133,8 +161,14 @@ export const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    localStorage.removeItem('adminSession');
     localStorage.removeItem('adminToken');
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error('Sign-out error:', e);
+    }
     navigate('/');
   };
 
@@ -288,12 +322,18 @@ export const AdminDashboard = () => {
           <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
           <p className="text-white/50 text-sm">Manage your portfolio projects</p>
         </div>
-        <button 
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors"
-        >
-          <LogOut size={16} /> Logout
-        </button>
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
+            <ShieldCheck size={14} />
+            <span>{authEmail ? `Authenticated: ${authEmail}` : 'Authenticated Admin'}</span>
+          </div>
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors text-sm"
+          >
+            <LogOut size={16} /> Logout
+          </button>
+        </div>
       </header>
 
       {/* Main Content */}
