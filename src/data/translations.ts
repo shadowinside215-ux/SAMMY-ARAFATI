@@ -42,11 +42,11 @@ export const translations = {
     services: [
       {
         title: "Normal Websites",
-        price: "1,000 DH",
+        price: "500 DH",
         priceType: "one-time",
         features: [
           "Professional, responsive websites for businesses and individuals.",
-          "One-time price: 1,000 DH"
+          "One-time price: 500 DH"
         ]
       },
       {
@@ -59,15 +59,24 @@ export const translations = {
         ]
       },
       {
+        title: "Simple Digital Systems",
+        price: "500 DH - 1,000 DH",
+        priceType: "one-time",
+        features: [
+          "Custom digital workflows and automated tools designed to solve business owners' daily problems and save time.",
+          "One-time price: 500 DH - 1,000 DH"
+        ]
+      },
+      {
         title: "Web, Play Store & App Store Apps",
         price: "from 3,000 DH",
         priceType: "starting-monthly",
         setupPrice: "3,000 DH",
-        monthlyPrice: "1,000 DH",
+        monthlyPrice: "800 DH",
         features: [
           "Custom web applications and business management systems.",
           "Development/setup starts at 3,000 DH",
-          "Maintenance, hosting, updates, bug fixes, and ongoing support: 1,000 DH/month"
+          "Maintenance, hosting, updates, bug fixes, and ongoing support: 800 DH/month"
         ]
       }
     ],
@@ -149,11 +158,11 @@ export const translations = {
     services: [
       {
         title: "Sites Web Normaux",
-        price: "1 000 DH",
+        price: "500 DH",
         priceType: "one-time",
         features: [
           "Sites web professionnels et responsives pour entreprises et particuliers.",
-          "Prix unique : 1 000 DH"
+          "Prix unique : 500 DH"
         ]
       },
       {
@@ -166,15 +175,24 @@ export const translations = {
         ]
       },
       {
+        title: "Systèmes Digitaux Simples",
+        price: "500 DH - 1 000 DH",
+        priceType: "one-time",
+        features: [
+          "Flux de travail numériques et outils automatisés conçus pour résoudre les problèmes quotidiens des entrepreneurs et gagner du temps.",
+          "Prix unique : 500 DH - 1 000 DH"
+        ]
+      },
+      {
         title: "Applications Web, Play Store & App Store",
         price: "dès 3 000 DH",
         priceType: "starting-monthly",
         setupPrice: "3 000 DH",
-        monthlyPrice: "1 000 DH",
+        monthlyPrice: "800 DH",
         features: [
-          "Applications web sur mesure et systèmes de gestion d\'entreprise.",
+          "Applications web sur mesure et systèmes de gestion d'entreprise.",
           "Développement/création à partir de 3 000 DH",
-          "Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 1 000 DH/mois"
+          "Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 800 DH/mois"
         ]
       }
     ],
@@ -252,11 +270,11 @@ export const translations = {
     services: [
       {
         title: "مواقع الويب العادية",
-        price: "1,000 درهم",
+        price: "500 درهم",
         priceType: "one-time",
         features: [
           "مواقع إلكترونية احترافية ومتجاوبة للشركات والأفراد.",
-          "سعر الدفعة الواحدة: 1,000 درهم"
+          "سعر الدفعة الواحدة: 500 درهم"
         ]
       },
       {
@@ -269,15 +287,24 @@ export const translations = {
         ]
       },
       {
+        title: "أنظمة رقمية بسيطة",
+        price: "500 - 1,000 درهم",
+        priceType: "one-time",
+        features: [
+          "أنظمة وتدفقات عمل رقمية مصممة خصيصاً لحل المشاكل اليومية لأصحاب الأعمال وتوفير الوقت.",
+          "سعر الدفعة الواحدة: 500 - 1,000 درهم"
+        ]
+      },
+      {
         title: "تطبيقات الويب وبلاي ستور وآب ستور",
         price: "ابتداءً من 3,000 درهم",
         priceType: "starting-monthly",
         setupPrice: "3,000 درهم",
-        monthlyPrice: "1,000 درهم",
+        monthlyPrice: "800 درهم",
         features: [
           "تطبيقات ويب مخصصة وأنظمة إدارة الأعمال.",
           "التطوير/الإنشاء يبدأ من 3,000 درهم",
-          "الصيانة، الاستضافة، التحديثات، إصلاح الأخطاء، والدعم المستمر: 1,000 درهم/شهرياً"
+          "الصيانة، الاستضافة، التحديثات، إصلاح الأخطاء، والدعم المستمر: 800 درهم/شهرياً"
         ]
       }
     ],
