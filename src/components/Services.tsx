@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { Monitor, ShoppingCart, Smartphone, MapPin, CheckCircle2 } from 'lucide-react';
+import { Monitor, ShoppingCart, Smartphone, CheckCircle2 } from 'lucide-react';
 
 export const Services = () => {
   const { t } = useLanguage();
-  const icons = [Monitor, ShoppingCart, Smartphone, MapPin];
+  const icons = [Monitor, ShoppingCart, Smartphone, Smartphone];
 
   return (
     <section id="services" className="py-24 relative bg-[#090909]/40 border-y border-white/5">
