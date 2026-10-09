@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { MessageSquare, MapPin, User, Building } from 'lucide-react';
+import { MessageSquare, User, Building } from 'lucide-react';
 
 export const DemoRequest = () => {
   const { t } = useLanguage();
@@ -9,7 +9,6 @@ export const DemoRequest = () => {
   const [formData, setFormData] = useState({
     businessName: '',
     ownerName: '',
-    googleMaps: '',
     message: ''
   });
 
@@ -20,12 +19,7 @@ export const DemoRequest = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.googleMaps) {
-      alert('Google Maps link is required.');
-      return;
-    }
-
-    const message = `Hello Sammy,\n\nI would like to request a free demo for my business.\n\nBusiness Name:\n${formData.businessName}\n\nOwner Name:\n${formData.ownerName}\n\nGoogle Maps:\n${formData.googleMaps}\n\nMessage:\n${formData.message || 'No message provided.'}`;
+    const message = `Hello Sammy,\n\nI would like to request a free demo for my business.\n\nBusiness Name:\n${formData.businessName}\n\nOwner Name:\n${formData.ownerName}\n\nMessage:\n${formData.message || 'No message provided.'}`;
     
     const url = `https://wa.me/212774677692?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
@@ -87,21 +81,6 @@ export const DemoRequest = () => {
                 />
               </div>
             </div>
-            
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white/80 flex items-center gap-2">
-                <MapPin size={16} /> {t.demo.googleMaps}
-              </label>
-              <input 
-                type="url"
-                name="googleMaps"
-                value={formData.googleMaps}
-                onChange={handleChange}
-                required
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000] focus:ring-1 focus:ring-[#B30000] transition-colors"
-                placeholder={t.demo.googleMapsPlaceholder}
-              />
-            </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-white/80 flex items-center gap-2">
@@ -119,7 +98,7 @@ export const DemoRequest = () => {
 
             <button 
               type="submit"
-              className="w-full py-4 mt-2 bg-[#B30000] text-white font-bold rounded-lg hover:bg-[#e60000] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(179,0,0,0.3)]"
+              className="w-full py-4 mt-2 bg-[#B30000] text-white font-bold rounded-lg hover:bg-[#e60000] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(179,0,0,0.3)] cursor-pointer"
             >
               {t.demo.button}
             </button>

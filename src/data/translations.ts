@@ -24,13 +24,13 @@ export const translations = {
     },
     buttons: {
       visitWebsite: 'Visit Website',
-      googleMaps: 'Google Maps',
       source: 'Source Code',
       liveDemo: 'Live Demo',
       clientLocation: 'Client Location',
       whatsapp: 'WhatsApp',
       email: 'Email',
       instagram: 'Instagram',
+      payNow: 'Pay with CIH RIB',
     },
     pricing: {
       oneTime: "One-time price",
@@ -63,8 +63,17 @@ export const translations = {
         price: "500 DH - 1,000 DH",
         priceType: "one-time",
         features: [
-          "Custom digital workflows and automated tools designed to solve business owners' daily problems and save time.",
+          "Custom digital workflows and automated tools designed specifically to solve business owners' daily problems and save time.",
           "One-time price: 500 DH - 1,000 DH"
+        ]
+      },
+      {
+        title: "Websites with Unique Design + Additional Systems",
+        price: "1,300 DH",
+        priceType: "one-time",
+        features: [
+          "Custom unique web design tailored for high-end brands, plus additional integrated business systems and workflows.",
+          "One-time price: 1,300 DH"
         ]
       },
       {
@@ -105,8 +114,6 @@ export const translations = {
       businessNamePlaceholder: 'e.g. Acme Corp',
       ownerName: 'Owner Name',
       ownerNamePlaceholder: 'e.g. John Doe',
-      googleMaps: 'Google Maps Link (Required)',
-      googleMapsPlaceholder: 'https://maps.google.com/...',
       message: 'Optional Message',
       messagePlaceholder: 'Tell me a bit about your needs...',
       button: 'Request My Free Demo',
@@ -140,13 +147,13 @@ export const translations = {
     },
     buttons: {
       visitWebsite: 'Visiter le Site',
-      googleMaps: 'Google Maps',
       source: 'Code Source',
       liveDemo: 'Démo en Direct',
       clientLocation: 'Localisation Client',
       whatsapp: 'WhatsApp',
       email: 'Email',
       instagram: 'Instagram',
+      payNow: 'Payer via RIB CIH',
     },
     pricing: {
       oneTime: "Prix unique",
@@ -179,8 +186,17 @@ export const translations = {
         price: "500 DH - 1 000 DH",
         priceType: "one-time",
         features: [
-          "Flux de travail numériques et outils automatisés conçus pour résoudre les problèmes quotidiens des entrepreneurs et gagner du temps.",
+          "Flux de travail numériques et outils automatisés conçus spécifiquement pour résoudre les problèmes quotidiens des entrepreneurs et gagner du temps.",
           "Prix unique : 500 DH - 1 000 DH"
+        ]
+      },
+      {
+        title: "Sites Web au Design Unique + Systèmes Additionnels",
+        price: "1 300 DH",
+        priceType: "one-time",
+        features: [
+          "Design web unique et personnalisé pour marques haut de gamme, avec systèmes et flux professionnels additionnels.",
+          "Prix unique : 1 300 DH"
         ]
       },
       {
@@ -221,8 +237,6 @@ export const translations = {
       businessNamePlaceholder: 'ex. Acme Corp',
       ownerName: 'Nom du Propriétaire',
       ownerNamePlaceholder: 'ex. Jean Dupont',
-      googleMaps: 'Lien Google Maps (Requis)',
-      googleMapsPlaceholder: 'https://maps.google.com/...',
       message: 'Message Optionnel',
       messagePlaceholder: 'Parlez-moi un peu de vos besoins...',
       button: 'Demander Ma Démo Gratuite',
@@ -248,17 +262,21 @@ export const translations = {
       secondaryBtn: 'تواصل معي',
     },
     sections: {
-      websites: 'مواقع الويب',      apps: 'التطبيقات',      services: 'خدماتنا',      whyMe: 'لماذا العمل معي',      contact: "لنصنع شيئاً عظيماً معاً",
+      websites: 'مواقع الويب',
+      apps: 'التطبيقات',
+      services: 'خدماتنا',
+      whyMe: 'لماذا العمل معي',
+      contact: "لنصنع شيئاً عظيماً معاً",
     },
     buttons: {
       visitWebsite: 'زيارة الموقع',
-      googleMaps: 'خرائط جوجل',
       source: 'المصدر',
       liveDemo: 'عرض حي',
       clientLocation: 'موقع العميل',
       whatsapp: 'واتساب',
       email: 'البريد الإلكتروني',
       instagram: 'إنستغرام',
+      payNow: 'الدفع عبر RIB CIH',
     },
     pricing: {
       oneTime: "دفعة واحدة",
@@ -293,6 +311,15 @@ export const translations = {
         features: [
           "أنظمة وتدفقات عمل رقمية مصممة خصيصاً لحل المشاكل اليومية لأصحاب الأعمال وتوفير الوقت.",
           "سعر الدفعة الواحدة: 500 - 1,000 درهم"
+        ]
+      },
+      {
+        title: "مواقع بتصميم فريد + أنظمة إضافية",
+        price: "1,300 درهم",
+        priceType: "one-time",
+        features: [
+          "تصميم ويب فريد ومخصص للعلامات التجارية الراقية، مع أنظمة عمل إضافية متكاملة.",
+          "سعر الدفعة الواحدة: 1,300 درهم"
         ]
       },
       {
@@ -333,9 +360,9 @@ export const translations = {
       businessNamePlaceholder: 'مثال: شركة الأمل',
       ownerName: 'اسم المالك',
       ownerNamePlaceholder: 'مثال: أحمد محمد',
-      googleMaps: 'رابط خرائط جوجل (مطلوب)',
-      googleMapsPlaceholder: 'https://maps.google.com/...',
-      message: 'رسالة اختيارية',      messagePlaceholder: 'أخبرني قليلاً عن احتياجاتك...',      button: 'اطلب عرضي المجاني',
+      message: 'رسالة اختيارية',
+      messagePlaceholder: 'أخبرني قليلاً عن احتياجاتك...',
+      button: 'اطلب عرضي المجاني',
     },
     footer: {
       name: "Sami's Digital Solutions",

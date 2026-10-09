@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Globe, MapPin, Github, MonitorPlay } from 'lucide-react';
+import { Globe, Github, MonitorPlay } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { Language } from '../data/translations';
 
@@ -11,7 +11,6 @@ interface Project {
   description: Record<Language, string>;
   website?: string;
   demo?: string;
-  maps?: string;
   source?: string;
 }
 
@@ -54,7 +53,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, type, index }
           </span>
         </div>
 
-        {/* Buttons (Vercel style) */}
+        {/* Buttons */}
         <div className="flex flex-wrap items-center gap-2 pt-2 mt-auto">
           {type === 'website' && project.website && (
             <a
@@ -77,18 +76,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, type, index }
             >
               <MonitorPlay size={16} />
               {t.buttons.liveDemo}
-            </a>
-          )}
-
-          {project.maps && (
-            <a
-              href={project.maps}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-1.5 bg-white/5 text-[11px] rounded-md border border-white/10 hover:bg-white/10 text-white flex items-center gap-2 transition-colors"
-            >
-              <MapPin size={16} />
-              {type === 'website' ? t.buttons.googleMaps : t.buttons.clientLocation}
             </a>
           )}
 

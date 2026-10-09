@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
-import { Plus, Edit2, Trash2, LogOut, Upload, Globe, MonitorPlay, MapPin, Loader2, Link, Settings, Download, ShieldCheck } from 'lucide-react';
+import { Plus, Edit2, Trash2, LogOut, Upload, Globe, Link, Settings, Download, ShieldCheck, Loader2 } from 'lucide-react';
 import { Language } from '../../data/translations';
 import { db, auth } from '../../lib/firebase';
 import { signOut } from 'firebase/auth';
-import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, serverTimestamp, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 interface Project {
   id: string;
@@ -14,7 +14,6 @@ interface Project {
   description: Record<Language, string>;
   website?: string;
   demo?: string;
-  maps?: string;
   type?: 'website' | 'app';
   createdAt?: any;
 }
@@ -42,8 +41,7 @@ export const AdminDashboard = () => {
     image: '',
     description: { en: '', fr: '', ar: '' },
     website: '',
-    demo: '',
-    maps: ''
+    demo: ''
   });
   
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -55,7 +53,6 @@ export const AdminDashboard = () => {
     const rawSession = localStorage.getItem('adminSession');
     const token = localStorage.getItem('adminToken');
     
-    // Check if session or Firebase user exists
     if (!token && !rawSession && !auth.currentUser) {
       navigate('/admin/login');
       return;
@@ -113,7 +110,6 @@ export const AdminDashboard = () => {
       const websites = websitesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
       const apps = appsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
       
-      // Sort client side
       const sortFn = (a: Project, b: Project) => {
         if (!a.createdAt || !b.createdAt) return 0;
         return b.createdAt.toMillis() - a.createdAt.toMillis();
@@ -138,7 +134,6 @@ export const AdminDashboard = () => {
         description: projectData.description,
         website: projectData.website || '',
         demo: projectData.demo || '',
-        maps: projectData.maps || '',
         type: activeTab === 'websites' ? 'website' : 'app'
       };
 
@@ -199,7 +194,6 @@ export const AdminDashboard = () => {
       const data = await res.json();
       if (data.secure_url) {
         setLogoUrl(data.secure_url);
-        // Save to firestore immediately
         await setDoc(doc(db, 'settings', 'general'), { logoUrl: data.secure_url }, { merge: true });
         alert('Logo updated successfully!');
       } else {
@@ -219,12 +213,11 @@ export const AdminDashboard = () => {
 
     setUploadingImage(true);
     
-    // Check if cloudinary env vars are set
     const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
     
     if (!cloudName || !uploadPreset) {
-      alert("Cloudinary environment variables (VITE_CLOUDINARY_CLOUD_NAME, VITE_CLOUDINARY_UPLOAD_PRESET) are not set. Check .env.example");
+      alert("Cloudinary environment variables are not set. Check .env.example");
       setUploadingImage(false);
       return;
     }
@@ -264,8 +257,7 @@ export const AdminDashboard = () => {
         image: '',
         description: { en: '', fr: '', ar: '' },
         website: '',
-        demo: '',
-        maps: ''
+        demo: ''
       });
     }
     setIsModalOpen(true);
@@ -311,12 +303,11 @@ export const AdminDashboard = () => {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-[#090909] flex items-center justify-center text-white"><Loader2 className="animate-spin text-[#B30000]" size={48} /></div>;
+    return <div className="min-h-screen bg-[#090909] flex items-center justify-center text-white"><div className="animate-spin text-[#B30000]">Loading...</div></div>;
   }
 
   return (
     <div className="min-h-screen bg-[#090909] text-white flex flex-col font-sans">
-      {/* Header */}
       <header className="px-8 py-6 border-b border-white/10 flex justify-between items-center bg-[#111]">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
@@ -329,31 +320,29 @@ export const AdminDashboard = () => {
           </div>
           <button 
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors text-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors text-sm cursor-pointer"
           >
             <LogOut size={16} /> Logout
           </button>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 p-8 max-w-7xl mx-auto w-full">
-        {/* Tabs */}
         <div className="flex gap-4 mb-8">
           <button 
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === 'websites' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'websites' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
             onClick={() => setActiveTab('websites')}
           >
             Websites
           </button>
           <button 
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === 'apps' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'apps' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
             onClick={() => setActiveTab('apps')}
           >
             Apps
           </button>
           <button 
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === 'settings' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'settings' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
             onClick={() => setActiveTab('settings')}
           >
             Settings
@@ -362,14 +351,13 @@ export const AdminDashboard = () => {
           {activeTab !== 'settings' && (
             <button 
               onClick={() => openModal()}
-              className="ml-auto flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-colors"
+              className="ml-auto flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-colors cursor-pointer"
             >
               <Plus size={18} /> Add New {activeTab === 'websites' ? 'Website' : 'App'}
             </button>
           )}
         </div>
 
-        {/* Project List */}
         {activeTab !== 'settings' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data[activeTab].map(project => (
@@ -386,16 +374,15 @@ export const AdminDashboard = () => {
                   <p className="text-white/50 text-sm mb-4 line-clamp-2 flex-grow">{project.description?.en || ''}</p>
                   <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/5">
                     <div className="flex gap-2">
-                      <button onClick={() => openModal(project)} className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-colors" title="Edit">
+                      <button onClick={() => openModal(project)} className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer" title="Edit">
                         <Edit2 size={16} />
                       </button>
-                      <button onClick={() => handleDelete(project.id)} className="p-2 text-red-500/60 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors" title="Delete">
+                      <button onClick={() => handleDelete(project.id)} className="p-2 text-red-500/60 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors cursor-pointer" title="Delete">
                         <Trash2 size={16} />
                       </button>
                     </div>
                     <div className="flex gap-2 text-white/40">
                       {(project.website || project.demo) && <Link size={16} />}
-                      {project.maps && <MapPin size={16} />}
                     </div>
                   </div>
                 </div>
@@ -409,7 +396,6 @@ export const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Settings Panel */}
         {activeTab === 'settings' && (
           <div className="max-w-3xl mx-auto bg-[#111] border border-white/10 rounded-2xl p-8">
             <h2 className="text-2xl font-bold mb-8">Settings</h2>
@@ -428,7 +414,7 @@ export const AdminDashboard = () => {
                   />
                   <button 
                     onClick={downloadQRCodeAsPDF}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#B30000] text-white font-medium rounded-lg hover:bg-[#990000] transition-colors w-full justify-center"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#B30000] text-white font-medium rounded-lg hover:bg-[#990000] transition-colors w-full justify-center cursor-pointer"
                   >
                     <Download size={16} /> Download as PDF
                   </button>
@@ -464,13 +450,12 @@ export const AdminDashboard = () => {
         )}
       </main>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#111] border border-white/10 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-white/10 flex justify-between items-center bg-[#1a1a1a] flex-shrink-0">
               <h2 className="text-xl font-bold">{editingProject ? 'Edit' : 'Add'} {activeTab === 'websites' ? 'Website' : 'App'}</h2>
-              <button onClick={() => setIsModalOpen(false)} className="text-white/50 hover:text-white text-2xl leading-none">&times;</button>
+              <button onClick={() => setIsModalOpen(false)} className="text-white/50 hover:text-white text-2xl leading-none cursor-pointer">&times;</button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-6 overflow-y-auto">
@@ -482,24 +467,14 @@ export const AdminDashboard = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-white/80">{activeTab === 'websites' ? 'Website URL' : 'Demo URL'}</label>
-                  <input 
-                    type="url" value={activeTab === 'websites' ? formData.website : formData.demo} 
-                    onChange={e => activeTab === 'websites' ? setFormData({...formData, website: e.target.value}) : setFormData({...formData, demo: e.target.value})}
-                    className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000]"
-                    placeholder="https://"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-white/80">Google Maps URL</label>
-                  <input 
-                    type="url" value={formData.maps} onChange={e => setFormData({...formData, maps: e.target.value})}
-                    className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000]"
-                    placeholder="https://"
-                  />
-                </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-white/80">{activeTab === 'websites' ? 'Website URL' : 'Demo URL'}</label>
+                <input 
+                  type="url" value={activeTab === 'websites' ? formData.website : formData.demo} 
+                  onChange={e => activeTab === 'websites' ? setFormData({...formData, website: e.target.value}) : setFormData({...formData, demo: e.target.value})}
+                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000]"
+                  placeholder="https://"
+                />
               </div>
 
               <div className="flex flex-col gap-2">
@@ -546,10 +521,10 @@ export const AdminDashboard = () => {
               </div>
 
               <div className="pt-4 mt-2 border-t border-white/10 flex justify-end gap-3 flex-shrink-0">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 rounded-lg font-medium text-white/70 hover:text-white bg-white/5 hover:bg-white/10">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 rounded-lg font-medium text-white/70 hover:text-white bg-white/5 hover:bg-white/10 cursor-pointer">
                   Cancel
                 </button>
-                <button type="submit" disabled={saving || uploadingImage} className="px-6 py-3 rounded-lg font-medium bg-[#B30000] text-white hover:bg-[#e60000] flex items-center gap-2">
+                <button type="submit" disabled={saving || uploadingImage} className="px-6 py-3 rounded-lg font-medium bg-[#B30000] text-white hover:bg-[#e60000] flex items-center gap-2 cursor-pointer">
                   {saving && <Loader2 size={16} className="animate-spin" />} Save
                 </button>
               </div>
