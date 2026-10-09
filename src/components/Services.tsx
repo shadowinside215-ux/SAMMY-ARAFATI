@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import { Monitor, ShoppingCart, Smartphone, Sparkles, CheckCircle2, CreditCard } from 'lucide-react';
-import { PaymentModal } from './PaymentModal';
+import { Monitor, ShoppingCart, Smartphone, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export const Services = () => {
   const { t } = useLanguage();
   const icons = [Monitor, ShoppingCart, Sparkles, Sparkles, Smartphone];
-  const [selectedService, setSelectedService] = useState<any | null>(null);
 
   return (
     <section id="services" className="py-24 relative bg-[#090909]/40 border-y border-white/5">
@@ -68,7 +66,7 @@ export const Services = () => {
                   </div>
                 </div>
 
-                <ul className="space-y-4 mb-8 flex-grow relative z-10">
+                <ul className="space-y-4 mb-4 flex-grow relative z-10">
                   {service.features.map((feature: string, fIndex: number) => (
                     <li key={fIndex} className="flex items-start gap-3 text-sm text-white/70 leading-relaxed">
                       <CheckCircle2 size={16} className="text-[#B30000] shrink-0 mt-0.5 opacity-80" />
@@ -76,25 +74,11 @@ export const Services = () => {
                     </li>
                   ))}
                 </ul>
-
-                <button
-                  onClick={() => setSelectedService(service)}
-                  className="w-full py-3 bg-white/5 hover:bg-[#B30000] text-white font-medium rounded-xl border border-white/10 hover:border-[#B30000] transition-all flex items-center justify-center gap-2 text-sm group/btn cursor-pointer"
-                >
-                  <CreditCard size={16} className="text-[#B30000] group-hover/btn:text-white transition-colors" />
-                  <span>{t.buttons.payNow}</span>
-                </button>
               </motion.div>
             );
           })}
         </div>
       </div>
-
-      <PaymentModal
-        isOpen={Boolean(selectedService)}
-        onClose={() => setSelectedService(null)}
-        service={selectedService}
-      />
     </section>
   );
 };

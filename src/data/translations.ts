@@ -30,7 +30,6 @@ export const translations = {
       whatsapp: 'WhatsApp',
       email: 'Email',
       instagram: 'Instagram',
-      payNow: 'Pay with CIH RIB',
     },
     pricing: {
       oneTime: "One-time price",
@@ -153,7 +152,6 @@ export const translations = {
       whatsapp: 'WhatsApp',
       email: 'Email',
       instagram: 'Instagram',
-      payNow: 'Payer via RIB CIH',
     },
     pricing: {
       oneTime: "Prix unique",
@@ -276,7 +274,6 @@ export const translations = {
       whatsapp: 'واتساب',
       email: 'البريد الإلكتروني',
       instagram: 'إنستغرام',
-      payNow: 'الدفع عبر RIB CIH',
     },
     pricing: {
       oneTime: "دفعة واحدة",
