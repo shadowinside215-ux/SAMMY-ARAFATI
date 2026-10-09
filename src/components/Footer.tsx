@@ -1,7 +1,5 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { Lock } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export const Footer = () => {
   const { t } = useLanguage();
@@ -25,15 +23,6 @@ export const Footer = () => {
           <span>Based in</span>
           <span className="flex items-center gap-1.5 text-white/70">🇲🇦 {t.footer.location}</span>
         </div>
-
-        {/* Discreet Admin Button */}
-        <Link 
-          to="/admin/login" 
-          className="p-2 text-white/20 hover:text-white/80 transition-colors rounded-lg hover:bg-white/5"
-          title="Admin Access"
-        >
-          <Lock size={14} />
-        </Link>
       </div>
     </footer>
   );

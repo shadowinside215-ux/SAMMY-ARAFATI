@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
-import { Plus, Edit2, Trash2, LogOut, Upload, Globe, Link, Settings, Download, ShieldCheck, Loader2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, LogOut, Upload, Globe, Link, Settings, Download, ShieldCheck, Loader2, MapPin } from 'lucide-react';
 import { Language } from '../../data/translations';
 import { db, auth } from '../../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -14,6 +14,7 @@ interface Project {
   description: Record<Language, string>;
   website?: string;
   demo?: string;
+  maps?: string;
   type?: 'website' | 'app';
   createdAt?: any;
 }
@@ -41,7 +42,8 @@ export const AdminDashboard = () => {
     image: '',
     description: { en: '', fr: '', ar: '' },
     website: '',
-    demo: ''
+    demo: '',
+    maps: ''
   });
   
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -257,7 +259,8 @@ export const AdminDashboard = () => {
         image: '',
         description: { en: '', fr: '', ar: '' },
         website: '',
-        demo: ''
+        demo: '',
+        maps: ''
       });
     }
     setIsModalOpen(true);
@@ -383,6 +386,7 @@ export const AdminDashboard = () => {
                     </div>
                     <div className="flex gap-2 text-white/40">
                       {(project.website || project.demo) && <Link size={16} />}
+                      {project.maps && <MapPin size={16} />}
                     </div>
                   </div>
                 </div>
@@ -474,6 +478,16 @@ export const AdminDashboard = () => {
                   onChange={e => activeTab === 'websites' ? setFormData({...formData, website: e.target.value}) : setFormData({...formData, demo: e.target.value})}
                   className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000]"
                   placeholder="https://"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-white/80">Google Maps URL</label>
+                <input 
+                  type="url" value={formData.maps || ''} 
+                  onChange={e => setFormData({...formData, maps: e.target.value})}
+                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000]"
+                  placeholder="https://maps.google.com/..."
                 />
               </div>
 
