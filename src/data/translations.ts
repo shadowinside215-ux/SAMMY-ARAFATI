@@ -42,11 +42,11 @@ export const translations = {
     services: [
       {
         title: "Normal Websites",
-        price: "500 DH",
+        price: "1,000 DH",
         priceType: "one-time",
         features: [
           "Professional, responsive websites for businesses and individuals.",
-          "One-time price: 500 DH"
+          "One-time price: 1,000 DH"
         ]
       },
       {
@@ -167,11 +167,11 @@ export const translations = {
     services: [
       {
         title: "Sites Web Normaux",
-        price: "500 DH",
+        price: "1 000 DH",
         priceType: "one-time",
         features: [
           "Sites web professionnels et responsives pour entreprises et particuliers.",
-          "Prix unique : 500 DH"
+          "Prix unique : 1 000 DH"
         ]
       },
       {
@@ -288,11 +288,11 @@ export const translations = {
     services: [
       {
         title: "مواقع الويب العادية",
-        price: "500 درهم",
+        price: "1,000 درهم",
         priceType: "one-time",
         features: [
           "مواقع إلكترونية احترافية ومتجاوبة للشركات والأفراد.",
-          "سعر الدفعة الواحدة: 500 درهم"
+          "سعر الدفعة الواحدة: 1,000 درهم"
         ]
       },
       {
