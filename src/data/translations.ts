@@ -37,16 +37,18 @@ export const translations = {
       recurring: "Recurring price",
       setupAndMonthly: "Setup + Monthly",
       from: "from",
-      month: "month"
+      month: "month",
+      negotiable: "Price is negotiable"
     },
     services: [
       {
         title: "Normal Websites",
-        price: "1,000 DH",
+        price: "1,500 DH",
         priceType: "one-time",
+        isNegotiable: true,
         features: [
           "Professional, responsive websites for businesses and individuals.",
-          "One-time price: 1,000 DH"
+          "One-time price: 1,500 DH (Price is negotiable)"
         ]
       },
       {
@@ -60,20 +62,21 @@ export const translations = {
       },
       {
         title: "Websites with Unique Design & Systems",
-        price: "1,300 DH",
+        price: "2,000 DH",
         priceType: "one-time",
         features: [
           "Websites featuring a custom unique design tailored to your brand plus additional business systems.",
-          "One-time price: 1,300 DH"
+          "One-time price: 2,000 DH"
         ]
       },
       {
         title: "Simple Digital Systems",
-        price: "500 DH - 1,000 DH",
+        price: "3,000 DH",
         priceType: "one-time",
+        isNegotiable: true,
         features: [
           "Custom digital workflows and automated tools designed to solve business owners' daily problems and save time.",
-          "One-time price: 500 DH - 1,000 DH"
+          "One-time price: 3,000 DH (Price is negotiable)"
         ]
       },
       {
@@ -162,16 +165,18 @@ export const translations = {
       recurring: "Prix récurrent",
       setupAndMonthly: "Création + Mensuel",
       from: "à partir de",
-      month: "mois"
+      month: "mois",
+      negotiable: "Prix négociable"
     },
     services: [
       {
         title: "Sites Web Normaux",
-        price: "1 000 DH",
+        price: "1 500 DH",
         priceType: "one-time",
+        isNegotiable: true,
         features: [
           "Sites web professionnels et responsives pour entreprises et particuliers.",
-          "Prix unique : 1 000 DH"
+          "Prix unique : 1 500 DH (Prix négociable)"
         ]
       },
       {
@@ -185,20 +190,21 @@ export const translations = {
       },
       {
         title: "Sites Web Design Unique & Systèmes",
-        price: "1 300 DH",
+        price: "2 000 DH",
         priceType: "one-time",
         features: [
           "Sites web dotés d'un design unique et personnalisé ainsi que des systèmes professionnels supplémentaires.",
-          "Prix unique : 1 300 DH"
+          "Prix unique : 2 000 DH"
         ]
       },
       {
         title: "Systèmes Digitaux Simples",
-        price: "500 DH - 1 000 DH",
+        price: "3 000 DH",
         priceType: "one-time",
+        isNegotiable: true,
         features: [
           "Flux de travail numériques et outils automatisés conçus pour résoudre les problèmes quotidiens des entrepreneurs et gagner du temps.",
-          "Prix unique : 500 DH - 1 000 DH"
+          "Prix unique : 3 000 DH (Prix négociable)"
         ]
       },
       {
@@ -283,16 +289,18 @@ export const translations = {
       recurring: "سعر متكرر",
       setupAndMonthly: "إنشاء + شهري",
       from: "ابتداءً من",
-      month: "شهر"
+      month: "شهر",
+      negotiable: "السعر قابل للتفاوض"
     },
     services: [
       {
         title: "مواقع الويب العادية",
-        price: "1,000 درهم",
+        price: "1,500 درهم",
         priceType: "one-time",
+        isNegotiable: true,
         features: [
           "مواقع إلكترونية احترافية ومتجاوبة للشركات والأفراد.",
-          "سعر الدفعة الواحدة: 1,000 درهم"
+          "سعر الدفعة الواحدة: 1,500 درهم (السعر قابل للتفاوض)"
         ]
       },
       {
@@ -306,20 +314,21 @@ export const translations = {
       },
       {
         title: "مواقع بتصميم فريد وأنظمة إضافية",
-        price: "1,300 درهم",
+        price: "2,000 درهم",
         priceType: "one-time",
         features: [
           "مواقع إلكترونية بتصميم فريد ومخصص لعلامتك التجارية مع أنظمة إضافية متكاملة.",
-          "سعر الدفعة الواحدة: 1,300 درهم"
+          "سعر الدفعة الواحدة: 2,000 درهم"
         ]
       },
       {
         title: "أنظمة رقمية بسيطة",
-        price: "500 - 1,000 درهم",
+        price: "3,000 درهم",
         priceType: "one-time",
+        isNegotiable: true,
         features: [
           "أنظمة وتدفقات عمل رقمية مصممة خصيصاً لحل المشاكل اليومية لأصحاب الأعمال وتوفير الوقت.",
-          "سعر الدفعة الواحدة: 500 - 1,000 درهم"
+          "سعر الدفعة الواحدة: 3,000 درهم (السعر قابل للتفاوض)"
         ]
       },
       {

@@ -59,10 +59,17 @@ export const Services = () => {
                       )}
                     </div>
                   )}
-                  <div className="mt-4 text-xs font-semibold uppercase tracking-wider text-[#B30000] bg-[#B30000]/10 inline-block px-2 py-1 rounded border border-[#B30000]/20">
-                    {service.priceType === 'one-time' && (t.pricing?.oneTime || 'One-time price')}
-                    {service.priceType === 'monthly' && (t.pricing?.recurring || 'Recurring price')}
-                    {service.priceType === 'starting-monthly' && (t.pricing?.setupAndMonthly || 'Setup + Monthly')}
+                  <div className="mt-4 flex flex-wrap gap-2 items-center">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-[#B30000] bg-[#B30000]/10 inline-block px-2 py-1 rounded border border-[#B30000]/20">
+                      {service.priceType === 'one-time' && (t.pricing?.oneTime || 'One-time price')}
+                      {service.priceType === 'monthly' && (t.pricing?.recurring || 'Recurring price')}
+                      {service.priceType === 'starting-monthly' && (t.pricing?.setupAndMonthly || 'Setup + Monthly')}
+                    </div>
+                    {service.isNegotiable && (
+                      <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 inline-block px-2 py-1 rounded border border-emerald-500/20">
+                        {t.pricing?.negotiable || 'Price is negotiable'}
+                      </div>
+                    )}
                   </div>
                 </div>
 
