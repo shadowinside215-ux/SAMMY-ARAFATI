@@ -11,6 +11,19 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+    build: {
+      chunkSizeWarningLimit: 800,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'three-vendor': ['three'],
+            'firebase-vendor': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+            'motion-vendor': ['motion', 'lenis', 'lucide-react'],
+          },
+        },
+      },
+    },
     server: {
       hmr: false,
       watch: process.env.DISABLE_HMR === 'true' ? null : {},

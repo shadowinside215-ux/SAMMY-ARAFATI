@@ -1,22 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Lenis from 'lenis';
 import { LanguageProvider } from './context/LanguageContext';
+import { FuturisticCanvas } from './three/FuturisticCanvas';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { ProjectsSection } from './components/ProjectsSection';
+import { AboutMe } from './components/AboutMe';
+import { ProjectsShowcase } from './components/ProjectsShowcase';
 import { Services } from './components/Services';
-import { WhyMe } from './components/WhyMe';
-import { Contact } from './components/Contact';
-import { DemoRequest } from './components/DemoRequest';
+import { ContactTerminal } from './components/ContactTerminal';
 import { Footer } from './components/Footer';
-import { AdminDashboard } from './components/admin/AdminDashboard';
-import { AdminLogin } from './components/admin/AdminLogin';
+import { prefersReducedMotion } from './three/webglUtils';
+
+const AdminDashboard = lazy(() =>
+  import('./components/admin/AdminDashboard').then((m) => ({ default: m.AdminDashboard }))
+);
+const AdminLogin = lazy(() =>
+  import('./components/admin/AdminLogin').then((m) => ({ default: m.AdminLogin }))
+);
 
 const Portfolio = () => {
+  const scrollProgressRef = useRef(0);
+
   useEffect(() => {
+    const updateNativeScroll = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      scrollProgressRef.current = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+    };
+
+    window.addEventListener('scroll', updateNativeScroll, { passive: true });
+    window.addEventListener('resize', updateNativeScroll, { passive: true });
+    updateNativeScroll();
+
+    if (prefersReducedMotion()) {
+      return () => {
+        window.removeEventListener('scroll', updateNativeScroll);
+        window.removeEventListener('resize', updateNativeScroll);
+      };
+    }
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
@@ -24,38 +48,38 @@ const Portfolio = () => {
       infinite: false,
     });
 
+    lenis.on('scroll', () => {
+      updateNativeScroll();
+    });
+
+    let rafId = 0;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', updateNativeScroll);
+      window.removeEventListener('resize', updateNativeScroll);
       lenis.destroy();
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#090909] text-white relative overflow-hidden flex flex-col selection:bg-accent/30 selection:text-white">
-      {/* Background Glows */}
-      <div className="fixed top-[-100px] right-[-100px] w-[500px] h-[500px] bg-[#B30000] opacity-10 blur-[120px] rounded-full pointer-events-none z-0"></div>
-      <div className="fixed bottom-[-100px] left-[-100px] w-[400px] h-[400px] bg-[#B30000] opacity-5 blur-[100px] rounded-full pointer-events-none z-0"></div>
-      
+    <div className="min-h-screen bg-[#000000] text-white relative overflow-x-hidden flex flex-col selection:bg-[#FF0000]/40 selection:text-white">
+      {/* Persistent Real-Time Three.js 3D Machine Backdrop */}
+      <FuturisticCanvas scrollProgressRef={scrollProgressRef} />
+
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-1">
           <Hero />
-          <section className="pt-24 pb-8 max-w-7xl mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4">Portfolio</h2>
-            <div className="w-24 h-1 bg-[#B30000] mx-auto rounded-full"></div>
-          </section>
-          <ProjectsSection type="website" />
-          <ProjectsSection type="app" />
+          <AboutMe />
+          <ProjectsShowcase />
           <Services />
-          <WhyMe />
-          <DemoRequest />
-          <Contact />
+          <ContactTerminal />
         </main>
         <Footer />
       </div>
@@ -66,11 +90,19 @@ const Portfolio = () => {
 export default function App() {
   return (
     <LanguageProvider>
-      <Routes>
-        <Route path="/" element={<Portfolio />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-[#000000] flex items-center justify-center text-[#FF2020] font-mono text-xs uppercase tracking-widest">
+            Loading...
+          </div>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<Portfolio />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
+      </Suspense>
     </LanguageProvider>
   );
 }

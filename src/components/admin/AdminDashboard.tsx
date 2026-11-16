@@ -15,8 +15,9 @@ interface Project {
   website?: string;
   demo?: string;
   maps?: string;
+  source?: string;
   type?: 'website' | 'app';
-  createdAt?: any;
+  createdAt?: { toMillis?: () => number };
 }
 
 interface ProjectsData {
@@ -43,11 +44,14 @@ export const AdminDashboard = () => {
     description: { en: '', fr: '', ar: '' },
     website: '',
     demo: '',
-    maps: ''
+    maps: '',
+    source: ''
   });
   
   const [uploadingImage, setUploadingImage] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
   const [authEmail, setAuthEmail] = useState<string>('');
 
@@ -112,16 +116,17 @@ export const AdminDashboard = () => {
       const websites = websitesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
       const apps = appsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
       
-      const sortFn = (a: Project, b: Project) => {
-        if (!a.createdAt || !b.createdAt) return 0;
-        return b.createdAt.toMillis() - a.createdAt.toMillis();
-      };
+      const toTime = (val?: { toMillis?: () => number }) =>
+        val && typeof val.toMillis === 'function' ? val.toMillis() : 0;
+
+      const sortFn = (a: Project, b: Project) => toTime(b.createdAt) - toTime(a.createdAt);
       websites.sort(sortFn);
       apps.sort(sortFn);
       
       setData({ websites, apps });
     } catch (err) {
       console.error('Failed to fetch projects', err);
+      setNotice({ type: 'error', text: 'Failed to load projects.' });
     } finally {
       setLoading(false);
     }
@@ -129,6 +134,7 @@ export const AdminDashboard = () => {
 
   const saveData = async (projectData: Project, isNew: boolean) => {
     setSaving(true);
+    setNotice(null);
     try {
       const dbData = {
         name: projectData.name,
@@ -136,6 +142,8 @@ export const AdminDashboard = () => {
         description: projectData.description,
         website: projectData.website || '',
         demo: projectData.demo || '',
+        maps: projectData.maps || '',
+        source: projectData.source || '',
         type: activeTab === 'websites' ? 'website' : 'app'
       };
 
@@ -150,9 +158,10 @@ export const AdminDashboard = () => {
       
       await fetchData();
       setIsModalOpen(false);
+      setNotice({ type: 'success', text: 'Project saved successfully.' });
     } catch (err) {
       console.error('Failed to save data', err);
-      alert('Failed to save data. Check your permissions.');
+      setNotice({ type: 'error', text: 'Failed to save data. Check your permissions.' });
     } finally {
       setSaving(false);
     }
@@ -174,36 +183,37 @@ export const AdminDashboard = () => {
     if (!file) return;
 
     setUploadingImage(true);
+    setNotice(null);
     
     const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
     
     if (!cloudName || !uploadPreset) {
-      alert("Cloudinary environment variables not set. Check .env.example");
+      setNotice({ type: 'error', text: 'Cloudinary environment variables not set. Check .env.example.' });
       setUploadingImage(false);
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', uploadPreset);
+    const uploadData = new FormData();
+    uploadData.append('file', file);
+    uploadData.append('upload_preset', uploadPreset);
 
     try {
       const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: 'POST',
-        body: formData
+        body: uploadData
       });
-      const data = await res.json();
-      if (data.secure_url) {
-        setLogoUrl(data.secure_url);
-        await setDoc(doc(db, 'settings', 'general'), { logoUrl: data.secure_url }, { merge: true });
-        alert('Logo updated successfully!');
+      const resData = await res.json();
+      if (resData.secure_url) {
+        setLogoUrl(resData.secure_url);
+        await setDoc(doc(db, 'settings', 'general'), { logoUrl: resData.secure_url }, { merge: true });
+        setNotice({ type: 'success', text: 'Logo updated successfully!' });
       } else {
-        alert("Upload failed: " + (data.error?.message || "Unknown error"));
+        setNotice({ type: 'error', text: 'Upload failed: ' + (resData.error?.message || 'Unknown error') });
       }
     } catch (err) {
       console.error('Upload failed', err);
-      alert('Image upload failed');
+      setNotice({ type: 'error', text: 'Image upload failed.' });
     } finally {
       setUploadingImage(false);
     }
@@ -214,40 +224,42 @@ export const AdminDashboard = () => {
     if (!file) return;
 
     setUploadingImage(true);
+    setNotice(null);
     
     const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
     
     if (!cloudName || !uploadPreset) {
-      alert("Cloudinary environment variables are not set. Check .env.example");
+      setNotice({ type: 'error', text: 'Cloudinary environment variables are not set. Check .env.example.' });
       setUploadingImage(false);
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', uploadPreset);
+    const uploadData = new FormData();
+    uploadData.append('file', file);
+    uploadData.append('upload_preset', uploadPreset);
 
     try {
       const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: 'POST',
-        body: formData
+        body: uploadData
       });
-      const data = await res.json();
-      if (data.secure_url) {
-        setFormData(prev => ({ ...prev, image: data.secure_url }));
+      const resData = await res.json();
+      if (resData.secure_url) {
+        setFormData(prev => ({ ...prev, image: resData.secure_url }));
       } else {
-        alert("Upload failed: " + (data.error?.message || "Unknown error"));
+        setNotice({ type: 'error', text: 'Upload failed: ' + (resData.error?.message || 'Unknown error') });
       }
     } catch (err) {
       console.error('Upload failed', err);
-      alert('Image upload failed');
+      setNotice({ type: 'error', text: 'Image upload failed.' });
     } finally {
       setUploadingImage(false);
     }
   };
 
   const openModal = (project?: Project) => {
+    setNotice(null);
     if (project) {
       setEditingProject(project);
       setFormData(project);
@@ -260,21 +272,23 @@ export const AdminDashboard = () => {
         description: { en: '', fr: '', ar: '' },
         website: '',
         demo: '',
-        maps: ''
+        maps: '',
+        source: ''
       });
     }
     setIsModalOpen(true);
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this project?')) {
-      try {
-        await deleteDoc(doc(db, 'projects', id));
-        await fetchData();
-      } catch (error) {
-        console.error("Error deleting document:", error);
-        alert("Failed to delete. Check permissions.");
-      }
+    try {
+      await deleteDoc(doc(db, 'projects', id));
+      setPendingDeleteId(null);
+      await fetchData();
+      setNotice({ type: 'success', text: 'Project deleted.' });
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      setNotice({ type: 'error', text: 'Failed to delete. Check permissions.' });
+      setPendingDeleteId(null);
     }
   };
 
@@ -301,7 +315,7 @@ export const AdminDashboard = () => {
       pdf.save("sami-digital-solutions-qr.pdf");
     };
     img.onerror = () => {
-      alert("Failed to generate PDF due to image loading error.");
+      setNotice({ type: 'error', text: 'Failed to generate PDF due to image loading error.' });
     };
   };
 
@@ -317,7 +331,7 @@ export const AdminDashboard = () => {
           <p className="text-white/50 text-sm">Manage your portfolio projects</p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FF0000]/10 border border-[#FF0000]/30 text-[#FF2020] text-xs">
             <ShieldCheck size={14} />
             <span>{authEmail ? `Authenticated: ${authEmail}` : 'Authenticated Admin'}</span>
           </div>
@@ -331,21 +345,34 @@ export const AdminDashboard = () => {
       </header>
 
       <main className="flex-1 p-8 max-w-7xl mx-auto w-full">
+        {notice && (
+          <div className={`mb-6 px-4 py-3 rounded-lg border text-sm flex items-center justify-between ${
+            notice.type === 'error'
+              ? 'bg-[#8B0000]/20 border-[#FF2020]/50 text-[#FF2020]'
+              : 'bg-[#111111] border-[#FF0000]/40 text-white'
+          }`}>
+            <span>{notice.text}</span>
+            <button type="button" onClick={() => setNotice(null)} className="text-xs text-neutral-400 hover:text-white cursor-pointer">
+              Dismiss
+            </button>
+          </div>
+        )}
+
         <div className="flex gap-4 mb-8">
           <button 
-            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'websites' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'websites' ? 'bg-[#8B0000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
             onClick={() => setActiveTab('websites')}
           >
             Websites
           </button>
           <button 
-            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'apps' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'apps' ? 'bg-[#8B0000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
             onClick={() => setActiveTab('apps')}
           >
             Apps
           </button>
           <button 
-            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'settings' ? 'bg-[#B30000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === 'settings' ? 'bg-[#8B0000] text-white' : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'}`}
             onClick={() => setActiveTab('settings')}
           >
             Settings
@@ -365,7 +392,7 @@ export const AdminDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data[activeTab].map(project => (
               <div key={project.id} className="bg-[#111] rounded-2xl border border-white/10 overflow-hidden flex flex-col">
-                <div className="h-48 bg-[#222] relative border-b border-white/10 flex items-center justify-center p-4">
+                <div className="h-48 bg-[#050505] relative border-b border-white/10 flex items-center justify-center p-4">
                    {project.image ? (
                      <img src={project.image} alt={project.name} className="w-full h-full object-cover rounded-md" />
                    ) : (
@@ -380,7 +407,7 @@ export const AdminDashboard = () => {
                       <button onClick={() => openModal(project)} className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer" title="Edit">
                         <Edit2 size={16} />
                       </button>
-                      <button onClick={() => handleDelete(project.id)} className="p-2 text-red-500/60 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors cursor-pointer" title="Delete">
+                      <button onClick={() => setPendingDeleteId(project.id)} className="p-2 text-red-500/60 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors cursor-pointer" title="Delete">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -486,7 +513,7 @@ export const AdminDashboard = () => {
                 <input 
                   type="url" value={formData.maps || ''} 
                   onChange={e => setFormData({...formData, maps: e.target.value})}
-                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#B30000]"
+                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF2020]"
                   placeholder="https://maps.google.com/..."
                 />
               </div>
@@ -543,6 +570,30 @@ export const AdminDashboard = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {pendingDeleteId && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111] border border-[#FF0000]/40 rounded-2xl w-full max-w-sm p-6 space-y-5">
+            <h3 className="text-lg font-bold text-white">Delete Project?</h3>
+            <p className="text-sm text-neutral-400">Are you sure you want to delete this project? This action cannot be undone.</p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setPendingDeleteId(null)}
+                className="px-4 py-2 rounded-lg text-sm bg-white/5 hover:bg-white/10 text-neutral-300 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDelete(pendingDeleteId)}
+                className="px-4 py-2 rounded-lg text-sm bg-[#FF0000] hover:bg-[#FF2020] text-white font-semibold cursor-pointer"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

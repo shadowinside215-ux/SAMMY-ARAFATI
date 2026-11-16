@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { fileURLToPath } from "url";
 
@@ -17,7 +16,7 @@ async function startServer() {
   // API Routes
   
   // Health check endpoint
-  app.get("/api/health", (req, res) => {
+  app.get("/api/health", (_req, res) => {
     res.json({ status: "ok" });
   });
 
@@ -33,7 +32,7 @@ async function startServer() {
     app.use(express.static(distPath));
     // Important: Use *all for Express v5 to catch all routes (but express is v4 in this project)
     // Wait, let's check express version. It's ^4.21.2
-    app.get('*', (req, res) => {
+    app.get('*', (_req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }

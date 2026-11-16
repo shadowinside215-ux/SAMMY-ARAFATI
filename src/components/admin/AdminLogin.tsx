@@ -120,10 +120,10 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090909] text-white flex items-center justify-center selection:bg-[#B30000]/30 selection:text-white relative overflow-hidden p-6">
+    <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center selection:bg-[#FF0000]/30 selection:text-white relative overflow-hidden p-6">
       {/* Background Glows */}
-      <div className="absolute top-[-100px] right-[-100px] w-[500px] h-[500px] bg-[#B30000] opacity-10 blur-[120px] rounded-full pointer-events-none z-0"></div>
-      <div className="absolute bottom-[-100px] left-[-100px] w-[400px] h-[400px] bg-[#B30000] opacity-5 blur-[100px] rounded-full pointer-events-none z-0"></div>
+      <div className="absolute top-[-100px] right-[-100px] w-[500px] h-[500px] bg-[#FF0000] opacity-10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+      <div className="absolute bottom-[-100px] left-[-100px] w-[400px] h-[400px] bg-[#8B0000] opacity-10 blur-[100px] rounded-full pointer-events-none z-0"></div>
       
       <div className="relative z-10 w-full max-w-md">
         {/* Back link */}
@@ -135,7 +135,7 @@ export const AdminLogin = () => {
         </button>
 
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 mb-4 text-[#B30000]">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 mb-4 text-[#FF2020]">
             <Shield size={22} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight mb-1">Restricted Admin Access</h1>
@@ -151,7 +151,7 @@ export const AdminLogin = () => {
           )}
 
           {lockoutRemaining > 0 && (
-            <div className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs rounded-lg text-center">
+            <div className="p-3 bg-[#8B0000]/20 border border-[#FF2020]/40 text-[#FF2020] text-xs rounded-lg text-center">
               Security lockout active. Try again in {Math.floor(lockoutRemaining / 60)}m {lockoutRemaining % 60}s.
             </div>
           )}
@@ -194,7 +194,7 @@ export const AdminLogin = () => {
                 required
                 disabled={loading || lockoutRemaining > 0}
                 placeholder="Enter username"
-                className="bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#B30000] transition-colors disabled:opacity-50"
+                className="bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#FF2020] transition-colors disabled:opacity-50"
               />
             </div>
             
@@ -207,7 +207,7 @@ export const AdminLogin = () => {
                 required
                 disabled={loading || lockoutRemaining > 0}
                 placeholder="••••••••"
-                className="bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#B30000] transition-colors disabled:opacity-50"
+                className="bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#FF2020] transition-colors disabled:opacity-50"
               />
             </div>
             

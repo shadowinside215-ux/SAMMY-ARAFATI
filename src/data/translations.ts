@@ -4,23 +4,63 @@ export const translations = {
   en: {
     nav: {
       home: 'Home',
-      websites: 'Websites',
-      apps: 'Apps',
+      about: 'Identity',
+      projects: 'Projects',
       services: 'Services',
       contact: 'Contact',
+      cta: 'Start Project',
     },
     hero: {
-      headline: 'I Build Websites & Apps That Help Businesses Grow.',
-      subtitle: 'Modern websites, custom business apps, and digital systems that save time, attract customers, and increase revenue.',
-      primaryBtn: 'View My Work',
-      secondaryBtn: 'Contact Me',
+      roleLine: "Sami's Digital Solutions · Full-Stack Developer",
+      headline: 'BUILDING THE DIGITAL FUTURE.',
+      headlineAccent: 'DIGITAL FUTURE.',
+      subtitle:
+        'I design and develop websites, applications, and intelligent digital solutions that turn ambitious ideas into reality.',
+      primaryBtn: 'EXPLORE MY WORK',
+      secondaryBtn: "LET'S WORK TOGETHER",
+    },
+    about: {
+      title: 'Digital Identity',
+      role: 'Full-Stack Developer',
+      lead: "I'm a developer passionate about creating powerful digital experiences, from modern websites and web applications to custom business systems and intelligent solutions.",
+      pillars: [
+        {
+          title: 'Custom Architecture',
+          description: 'Every business receives an engineered software system structured around its real operational workflow.',
+        },
+        {
+          title: 'High-Velocity Execution',
+          description: 'Sub-second interfaces and optimized web pipelines engineered for reliability across desktop and mobile.',
+        },
+        {
+          title: 'Visual Authority',
+          description: 'Precision interfaces and spatial interactions built to earn immediate customer trust.',
+        },
+        {
+          title: 'Continuous Evolution',
+          description: 'Modular foundations that expand cleanly with new features as your business scales.',
+        },
+      ],
     },
     sections: {
+      projects: 'Project Showcase',
       websites: 'Websites',
-      apps: 'Apps',
-      services: 'Services',
-      whyMe: 'Why Work With Me',
-      contact: "Let's Build Something Great",
+      apps: 'Applications',
+      services: 'What I Build',
+      pricingTitle: 'Transparent Pricing',
+      contact: 'HAVE A PROJECT IN MIND?',
+    },
+    projectsUI: {
+      all: 'All Systems',
+      websites: 'Websites',
+      apps: 'Applications',
+      viewProject: 'View Project',
+      prev: 'Previous',
+      next: 'Next',
+      empty: 'No projects published in this category yet.',
+      error: 'Unable to load projects right now. Please try again.',
+      websiteType: 'Web Platform',
+      appType: 'Application System',
     },
     buttons: {
       visitWebsite: 'Visit Website',
@@ -30,125 +70,179 @@ export const translations = {
       clientLocation: 'Client Location',
       whatsapp: 'WhatsApp',
       email: 'Email',
-      instagram: 'Instagram',
     },
+    capabilities: [
+      {
+        title: 'Website Development',
+        summary: 'High-impact business websites engineered with modern frontend architecture, responsive layouts, and search-ready structure.',
+        specs: ['Responsive Architecture', 'SEO & Metadata Ready', 'Custom Visual Identity'],
+      },
+      {
+        title: 'Web Application Development',
+        summary: 'Full-stack interactive web applications with real-time databases, authentication, and dedicated management portals.',
+        specs: ['Real-Time Data Sync', 'Role-Based Access', 'Cloud Persistence'],
+      },
+      {
+        title: 'Custom Digital Systems',
+        summary: 'Tailored internal platforms, client portals, and administrative engines built around your exact operational needs.',
+        specs: ['Modular Architecture', 'Admin Dashboards', 'Scalable Data Models'],
+      },
+      {
+        title: 'Business Automation',
+        summary: 'Automated digital workflows that eliminate repetitive manual tasks, connect customer requests, and save daily hours.',
+        specs: ['Workflow Routing', 'Direct Client Intake', 'Zero-Friction Operations'],
+      },
+      {
+        title: 'UI/UX Design',
+        summary: 'Deliberate spatial typography, disciplined contrast, and tactile interaction design tailored to convert visitors.',
+        specs: ['Interactive Prototypes', 'Spatial Motion Design', 'Accessibility First'],
+      },
+      {
+        title: '3D Web & Interactive Experiences',
+        summary: 'Real-time interactive 3D web environments with custom visual effects, smooth camera choreography, and tactile interfaces.',
+        specs: ['Interactive 3D Engine', 'Custom Visual Effects', '60fps Motion Control'],
+      },
+    ],
     pricing: {
-      oneTime: "One-time price",
-      recurring: "Recurring price",
-      setupAndMonthly: "Setup + Monthly",
-      from: "from",
-      month: "month",
-      negotiable: "Price is negotiable"
+      oneTime: 'One-time price',
+      recurring: 'Recurring price',
+      setupAndMonthly: 'Setup + Monthly',
+      from: 'from',
+      month: 'month',
+      negotiable: 'Price is negotiable',
     },
     services: [
       {
-        title: "Normal Websites",
-        price: "1,500 DH",
-        priceType: "one-time",
+        title: 'Normal Websites',
+        price: '1,200 DH',
+        priceType: 'starting-one-time',
         isNegotiable: true,
         features: [
-          "Professional, responsive websites for businesses and individuals.",
-          "One-time price: 1,500 DH (Price is negotiable)"
-        ]
+          'Professional, responsive websites for businesses and individuals.',
+          'Starting from 1,200 DH (Price is negotiable)',
+        ],
       },
       {
-        title: "E-commerce Websites",
-        price: "500 DH",
-        priceType: "monthly",
+        title: 'E-commerce Websites',
+        price: '500 DH',
+        priceType: 'monthly',
         features: [
-          "Online stores with product listings, shopping cart, ordering, and e-commerce functionality.",
-          "Recurring price: 500 DH per month"
-        ]
+          'Online stores with product listings, shopping cart, ordering, and e-commerce functionality.',
+          'Recurring price: 500 DH per month',
+        ],
       },
       {
-        title: "Websites with Unique Design & Systems",
-        price: "2,000 DH",
-        priceType: "one-time",
+        title: '3D Websites with Unique Design & Functions',
+        price: '2,500 DH',
+        priceType: 'one-time',
         features: [
-          "Websites featuring a custom unique design tailored to your brand plus additional business systems.",
-          "One-time price: 2,000 DH"
-        ]
+          'Custom 3D interactive websites with a unique design tailored to your brand and advanced custom functions.',
+          'One-time price: 2,500 DH',
+        ],
       },
       {
-        title: "Simple Digital Systems",
-        price: "3,000 DH",
-        priceType: "one-time",
+        title: 'Complicated Digital Systems',
+        price: '3,000 DH',
+        priceType: 'one-time',
         isNegotiable: true,
         features: [
-          "Custom digital workflows and automated tools designed to solve business owners' daily problems and save time.",
-          "One-time price: 3,000 DH (Price is negotiable)"
-        ]
+          'Advanced, multi-module digital workflows and automated enterprise systems built to solve complex business problems.',
+          'One-time price: 3,000 DH (Price is negotiable)',
+        ],
       },
       {
-        title: "Web, Play Store & App Store Apps",
-        price: "from 3,000 DH",
-        priceType: "starting-monthly",
-        setupPrice: "3,000 DH",
-        monthlyPrice: "800 DH",
+        title: 'Web, Play Store & App Store Apps',
+        price: 'from 3,000 DH',
+        priceType: 'starting-monthly',
+        setupPrice: '3,000 DH',
+        monthlyPrice: '800 DH',
         features: [
-          "Custom web applications and business management systems.",
-          "Development/setup starts at 3,000 DH",
-          "Maintenance, hosting, updates, bug fixes, and ongoing support: 800 DH/month"
-        ]
-      }
-    ],
-    whyMe: [
-      {
-        title: 'Custom Solutions',
-        description: 'Every business gets a system designed for its own needs.',
-      },
-      {
-        title: 'Fast Performance',
-        description: 'Fast loading websites and applications.',
-      },
-      {
-        title: 'Modern Design',
-        description: 'Professional designs that build customer trust.',
-      },
-      {
-        title: 'Always Improving',
-        description: 'New features and updates whenever your business grows.',
+          'Custom web applications and business management systems.',
+          'Development/setup starts at 3,000 DH',
+          'Maintenance, hosting, updates, bug fixes, and ongoing support: 800 DH/month',
+        ],
       },
     ],
     demo: {
-      title: 'Request a Free Demo',
-      subtitle: 'For business owners who want to see a custom demo before becoming clients.',
+      headline: 'HAVE A PROJECT IN MIND?',
+      subtitle: "Let's build something extraordinary together.",
       businessName: 'Business Name',
-      businessNamePlaceholder: 'e.g. Acme Corp',
-      ownerName: 'Owner Name',
-      ownerNamePlaceholder: 'e.g. John Doe',
-      googleMaps: 'Google Maps Link (Required)',
-      googleMapsPlaceholder: 'https://maps.google.com/...',
-      message: 'Optional Message',
-      messagePlaceholder: 'Tell me a bit about your needs...',
-      button: 'Request My Free Demo',
+      businessNamePlaceholder: 'e.g. Cappuccino7',
+      ownerName: 'Your Name',
+      ownerNamePlaceholder: 'e.g. Alex Martin',
+      message: 'Project Brief',
+      messagePlaceholder: 'Describe the website, application, or system you want to build...',
+      button: 'Transmit via WhatsApp',
+      directChannels: 'Direct Communication Channels',
+      readyText: 'Ready to open in WhatsApp.',
+      openLink: 'Open Link',
     },
     footer: {
       name: "Sami's Digital Solutions",
-      tagline: 'Building Digital Solutions for Businesses',
+      tagline: 'Full-Stack Developer · Building Digital Solutions for Businesses',
       location: 'Morocco',
     },
   },
   fr: {
     nav: {
       home: 'Accueil',
-      websites: 'Sites Web',
-      apps: 'Applications',
+      about: 'Identité',
+      projects: 'Projets',
       services: 'Services',
       contact: 'Contact',
+      cta: 'Démarrer',
     },
     hero: {
-      headline: 'Je Crée des Applications & Sites Web qui Aident les Commerces à Croître.',
-      subtitle: 'Des sites web modernes, des applications métiers sur mesure et des systèmes digitaux qui font gagner du temps, attirent des clients et augmentent les revenus.',
-      primaryBtn: 'Voir Mon Travail',
-      secondaryBtn: 'Me Contacter',
+      roleLine: "Sami's Digital Solutions · Développeur Full-Stack",
+      headline: 'CONSTRUIRE LE FUTUR DIGITAL.',
+      headlineAccent: 'FUTUR DIGITAL.',
+      subtitle:
+        'Je conçois et développe des sites web, des applications et des solutions numériques intelligentes qui transforment vos idées ambitieuses en réalité.',
+      primaryBtn: 'EXPLORER MON TRAVAIL',
+      secondaryBtn: 'TRAVAILLONS ENSEMBLE',
+    },
+    about: {
+      title: 'Identité Numérique',
+      role: 'Développeur Full-Stack',
+      lead: "Je suis un développeur passionné par la création d'expériences digitales puissantes, des sites web modernes et applications aux systèmes métiers sur mesure et solutions intelligentes.",
+      pillars: [
+        {
+          title: 'Architecture Sur Mesure',
+          description: 'Chaque entreprise reçoit un système logiciel conçu autour de ses opérations réelles.',
+        },
+        {
+          title: 'Exécution Haute Vitesse',
+          description: 'Des interfaces ultra-rapides optimisées pour la fiabilité sur ordinateur et mobile.',
+        },
+        {
+          title: 'Autorité Visuelle',
+          description: 'Des designs de précision et interactions spatiales pensés pour inspirer confiance.',
+        },
+        {
+          title: 'Évolution Continue',
+          description: 'Des bases modulaires qui grandissent avec de nouvelles fonctionnalités.',
+        },
+      ],
     },
     sections: {
+      projects: 'Vitrine de Projets',
       websites: 'Sites Web',
       apps: 'Applications',
-      services: 'Services',
-      whyMe: 'Pourquoi Travailler Avec Moi',
-      contact: "Construisons Quelque Chose d'Exceptionnel",
+      services: 'Ce Que Je Construis',
+      pricingTitle: 'Tarification Transparente',
+      contact: 'UN PROJET EN TÊTE ?',
+    },
+    projectsUI: {
+      all: 'Tous les Systèmes',
+      websites: 'Sites Web',
+      apps: 'Applications',
+      viewProject: 'Voir le Projet',
+      prev: 'Précédent',
+      next: 'Suivant',
+      empty: 'Aucun projet publié dans cette catégorie.',
+      error: 'Impossible de charger les projets pour le moment.',
+      websiteType: 'Plateforme Web',
+      appType: 'Système Applicatif',
     },
     buttons: {
       visitWebsite: 'Visiter le Site',
@@ -158,121 +252,179 @@ export const translations = {
       clientLocation: 'Localisation Client',
       whatsapp: 'WhatsApp',
       email: 'Email',
-      instagram: 'Instagram',
     },
+    capabilities: [
+      {
+        title: 'Website Development',
+        summary: 'Sites web professionnels à fort impact avec architecture moderne, design responsive et structure SEO.',
+        specs: ['Architecture Responsive', 'Structure SEO', 'Identité Visuelle Sur Mesure'],
+      },
+      {
+        title: 'Web Application Development',
+        summary: 'Applications web interactives full-stack avec bases de données temps réel et portails de gestion.',
+        specs: ['Données Temps Réel', 'Contrôle d’Accès', 'Persistance Cloud'],
+      },
+      {
+        title: 'Custom Digital Systems',
+        summary: 'Plateformes internes sur mesure, portails clients et moteurs administratifs adaptés à vos processus.',
+        specs: ['Architecture Modulaire', 'Tableaux de Bord Admin', 'Modèles Évolutifs'],
+      },
+      {
+        title: 'Business Automation',
+        summary: 'Flux de travail numériques automatisés éliminant les tâches répétitives pour gagner du temps chaque jour.',
+        specs: ['Routage Automatisé', 'Prise en Charge Directe', 'Opérations Fluides'],
+      },
+      {
+        title: 'UI/UX Design',
+        summary: 'Typographie spatiale, contraste maîtrisé et design d’interaction conçu pour convertir vos visiteurs.',
+        specs: ['Prototypes Interactifs', 'Motion Spatial', 'Accessibilité'],
+      },
+      {
+        title: 'Expériences Web 3D Interactives',
+        summary: 'Environnements 3D interactifs en temps réel avec effets visuels sur mesure, caméra fluide et interfaces tactiles.',
+        specs: ['Moteur 3D Interactif', 'Effets Visuels Sur Mesure', 'Animations 60fps'],
+      },
+    ],
     pricing: {
-      oneTime: "Prix unique",
-      recurring: "Prix récurrent",
-      setupAndMonthly: "Création + Mensuel",
-      from: "à partir de",
-      month: "mois",
-      negotiable: "Prix négociable"
+      oneTime: 'Prix unique',
+      recurring: 'Prix récurrent',
+      setupAndMonthly: 'Création + Mensuel',
+      from: 'à partir de',
+      month: 'mois',
+      negotiable: 'Prix négociable',
     },
     services: [
       {
-        title: "Sites Web Normaux",
-        price: "1 500 DH",
-        priceType: "one-time",
+        title: 'Sites Web Normaux',
+        price: '1 200 DH',
+        priceType: 'starting-one-time',
         isNegotiable: true,
         features: [
-          "Sites web professionnels et responsives pour entreprises et particuliers.",
-          "Prix unique : 1 500 DH (Prix négociable)"
-        ]
+          'Sites web professionnels et responsives pour entreprises et particuliers.',
+          'À partir de 1 200 DH (Prix négociable)',
+        ],
       },
       {
-        title: "Sites E-commerce",
-        price: "500 DH",
-        priceType: "monthly",
+        title: 'Sites E-commerce',
+        price: '500 DH',
+        priceType: 'monthly',
         features: [
-          "Boutiques en ligne avec liste de produits, panier, commande et fonctionnalités e-commerce.",
-          "Prix récurrent : 500 DH par mois"
-        ]
+          'Boutiques en ligne avec liste de produits, panier, commande et fonctionnalités e-commerce.',
+          'Prix récurrent : 500 DH par mois',
+        ],
       },
       {
-        title: "Sites Web Design Unique & Systèmes",
-        price: "2 000 DH",
-        priceType: "one-time",
+        title: 'Sites Web 3D Design Unique & Fonctions',
+        price: '2 500 DH',
+        priceType: 'one-time',
         features: [
-          "Sites web dotés d'un design unique et personnalisé ainsi que des systèmes professionnels supplémentaires.",
-          "Prix unique : 2 000 DH"
-        ]
+          'Sites web 3D interactifs dotés d’un design unique et de fonctionnalités avancées sur mesure.',
+          'Prix unique : 2 500 DH',
+        ],
       },
       {
-        title: "Systèmes Digitaux Simples",
-        price: "3 000 DH",
-        priceType: "one-time",
+        title: 'Systèmes Digitaux Complexes',
+        price: '3 000 DH',
+        priceType: 'one-time',
         isNegotiable: true,
         features: [
-          "Flux de travail numériques et outils automatisés conçus pour résoudre les problèmes quotidiens des entrepreneurs et gagner du temps.",
-          "Prix unique : 3 000 DH (Prix négociable)"
-        ]
+          'Flux de travail numériques avancés et systèmes complexes multi-modules conçus pour automatiser vos opérations.',
+          'Prix unique : 3 000 DH (Prix négociable)',
+        ],
       },
       {
-        title: "Applications Web, Play Store & App Store",
-        price: "dès 3 000 DH",
-        priceType: "starting-monthly",
-        setupPrice: "3 000 DH",
-        monthlyPrice: "800 DH",
+        title: 'Applications Web, Play Store & App Store',
+        price: 'dès 3 000 DH',
+        priceType: 'starting-monthly',
+        setupPrice: '3 000 DH',
+        monthlyPrice: '800 DH',
         features: [
           "Applications web sur mesure et systèmes de gestion d'entreprise.",
-          "Développement/création à partir de 3 000 DH",
-          "Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 800 DH/mois"
-        ]
-      }
-    ],
-    whyMe: [
-      {
-        title: 'Solutions Sur Mesure',
-        description: 'Chaque entreprise obtient un système conçu pour ses propres besoins.',
-      },
-      {
-        title: 'Performance Rapide',
-        description: 'Des sites web et des applications qui se chargent rapidement.',
-      },
-      {
-        title: 'Design Moderne',
-        description: 'Des designs professionnels qui renforcent la confiance des clients.',
-      },
-      {
-        title: 'Toujours en Amélioration',
-        description: "De nouvelles fonctionnalités et mises à jour dès que votre entreprise se développe.",
+          'Développement/création à partir de 3 000 DH',
+          'Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 800 DH/mois',
+        ],
       },
     ],
     demo: {
-      title: 'Demander une Démo Gratuite',
-      subtitle: 'Pour les propriétaires d\'entreprise qui souhaitent voir une démo personnalisée avant de devenir clients.',
-      businessName: 'Nom de l\'Entreprise',
-      businessNamePlaceholder: 'ex. Acme Corp',
-      ownerName: 'Nom du Propriétaire',
+      headline: 'UN PROJET EN TÊTE ?',
+      subtitle: 'Construisons quelque chose d’extraordinaire ensemble.',
+      businessName: "Nom de l'Entreprise",
+      businessNamePlaceholder: 'ex. Cappuccino7',
+      ownerName: 'Votre Nom',
       ownerNamePlaceholder: 'ex. Jean Dupont',
-      googleMaps: 'Lien Google Maps (Requis)',
-      googleMapsPlaceholder: 'https://maps.google.com/...',
-      message: 'Message Optionnel',
-      messagePlaceholder: 'Parlez-moi un peu de vos besoins...',
-      button: 'Demander Ma Démo Gratuite',
+      message: 'Détails du Projet',
+      messagePlaceholder: 'Décrivez le site web, l’application ou le système souhaité...',
+      button: 'Transmettre via WhatsApp',
+      directChannels: 'Canaux Directs',
+      readyText: 'Prêt à ouvrir dans WhatsApp.',
+      openLink: 'Ouvrir le lien',
     },
     footer: {
       name: "Sami's Digital Solutions",
-      tagline: 'Création de Solutions Digitales pour les Entreprises',
+      tagline: 'Développeur Full-Stack · Création de Solutions Digitales pour les Entreprises',
       location: 'Maroc',
     },
   },
   ar: {
     nav: {
       home: 'الرئيسية',
-      websites: 'مواقع الويب',
-      apps: 'التطبيقات',
-      services: 'خدماتنا',
-      contact: 'اتصل بي',
+      about: 'الهوية',
+      projects: 'المشاريع',
+      services: 'الخدمات',
+      contact: 'تواصل',
+      cta: 'ابدأ مشروعاً',
     },
     hero: {
-      headline: 'أقوم ببناء تطبيقات ومواقع تساعد الأعمال على النمو.',
-      subtitle: 'مواقع حديثة، وتطبيقات مخصصة وأنظمة رقمية توفر الوقت، تجذب العملاء وتزيد الإيرادات.',
-      primaryBtn: 'شاهد أعمالي',
-      secondaryBtn: 'تواصل معي',
+      roleLine: "Sami's Digital Solutions · مطور Full-Stack",
+      headline: 'نصنع المستقبل الرقمي.',
+      headlineAccent: 'المستقبل الرقمي.',
+      subtitle:
+        'أصمم وأطور مواقع الويب والتطبيقات والحلول الرقمية الذكية التي تحول الأفكار الطموحة إلى واقع ملموس.',
+      primaryBtn: 'استكشف أعمالي',
+      secondaryBtn: 'لنعمل معاً',
+    },
+    about: {
+      title: 'الهوية الرقمية',
+      role: 'مطور Full-Stack',
+      lead: 'أنا مطور شغوف بابتكار تجارب رقمية قوية، من المواقع الحديثة وتطبيقات الويب إلى أنظمة الأعمال المخصصة والحلول الذكية.',
+      pillars: [
+        {
+          title: 'هندسة مخصصة',
+          description: 'كل عمل يحصل على نظام برمجي مصمم خصيصاً حول عملياته الفعلية.',
+        },
+        {
+          title: 'أداء فائق السرعة',
+          description: 'واجهات فائقة الاستجابة ومبنية لتعمل بكفاءة على الحاسوب والهاتف.',
+        },
+        {
+          title: 'حضور بصري متميز',
+          description: 'تصاميم دقيقة وتفاعلات ثلاثية الأبعاد تبني ثقة العملاء فوراً.',
+        },
+        {
+          title: 'تطور مستمر',
+          description: 'بنية مرنة قابلة للتوسع مع نمو أعمالك وإضافة ميزات جديدة.',
+        },
+      ],
     },
     sections: {
-      websites: 'مواقع الويب',      apps: 'التطبيقات',      services: 'خدماتنا',      whyMe: 'لماذا العمل معي',      contact: "لنصنع شيئاً عظيماً معاً",
+      projects: 'معرض المشاريع',
+      websites: 'مواقع الويب',
+      apps: 'التطبيقات',
+      services: 'ما أبنيه',
+      pricingTitle: 'الأسعار والباقات',
+      contact: 'هل لديك مشروع في ذهنك؟',
+    },
+    projectsUI: {
+      all: 'جميع الأنظمة',
+      websites: 'مواقع الويب',
+      apps: 'التطبيقات',
+      viewProject: 'عرض المشروع',
+      prev: 'السابق',
+      next: 'التالي',
+      empty: 'لا توجد مشاريع منشورة في هذا القسم حالياً.',
+      error: 'تعذر تحميل المشاريع حالياً. يرجى المحاولة مجدداً.',
+      websiteType: 'منصة ويب',
+      appType: 'نظام تطبيقي',
     },
     buttons: {
       visitWebsite: 'زيارة الموقع',
@@ -282,100 +434,116 @@ export const translations = {
       clientLocation: 'موقع العميل',
       whatsapp: 'واتساب',
       email: 'البريد الإلكتروني',
-      instagram: 'إنستغرام',
     },
+    capabilities: [
+      {
+        title: 'Website Development',
+        summary: 'مواقع أعمال احترافية بهندسة حديثة وتصميم متجاوب وهيكلية مهيأة لمحركات البحث.',
+        specs: ['هندسة متجاوبة', 'جاهزية SEO', 'هوية بصرية مخصصة'],
+      },
+      {
+        title: 'Web Application Development',
+        summary: 'تطبيقات ويب تفاعلية متكاملة مع قواعد بيانات لحظية ونظام صلاحيات ولوحات تحكم.',
+        specs: ['بيانات لحظية', 'نظام صلاحيات', 'تخزين سحابي'],
+      },
+      {
+        title: 'Custom Digital Systems',
+        summary: 'منصات داخلية مخصصة وبوابات عملاء وأنظمة إدارة مبنية وفق احتياجات عملك.',
+        specs: ['بنية معيارية', 'لوحات تحكم', 'قابلية التوسع'],
+      },
+      {
+        title: 'Business Automation',
+        summary: 'أنظمة أتمتة رقمية تلغي المهام المتكررة وتوفر ساعات العمل اليومية.',
+        specs: ['أتمتة المهام', 'استقبال طلبات مباشر', 'تشغيل سلس'],
+      },
+      {
+        title: 'UI/UX Design',
+        summary: 'تصميم واجهات وتجارب مستخدم متقنة تركز على الوضوح والتحويل البصري.',
+        specs: ['نماذج تفاعلية', 'حركة ثلاثية الأبعاد', 'سهولة الوصول'],
+      },
+      {
+        title: 'تجارب الويب ثلاثية الأبعاد',
+        summary: 'بيئات ويب ثلاثية الأبعاد تفاعلية في الوقت الفعلي مع مؤثرات بصرية مخصصة وحركة كاميرا سلسة وواجهات متقدمة.',
+        specs: ['محرك ثلاثي الأبعاد', 'مؤثرات بصرية مخصصة', 'أداء 60 إطار'],
+      },
+    ],
     pricing: {
-      oneTime: "دفعة واحدة",
-      recurring: "سعر متكرر",
-      setupAndMonthly: "إنشاء + شهري",
-      from: "ابتداءً من",
-      month: "شهر",
-      negotiable: "السعر قابل للتفاوض"
+      oneTime: 'دفعة واحدة',
+      recurring: 'سعر متكرر',
+      setupAndMonthly: 'إنشاء + شهري',
+      from: 'ابتداءً من',
+      month: 'شهر',
+      negotiable: 'السعر قابل للتفاوض',
     },
     services: [
       {
-        title: "مواقع الويب العادية",
-        price: "1,500 درهم",
-        priceType: "one-time",
+        title: 'مواقع الويب العادية',
+        price: '1,200 درهم',
+        priceType: 'starting-one-time',
         isNegotiable: true,
         features: [
-          "مواقع إلكترونية احترافية ومتجاوبة للشركات والأفراد.",
-          "سعر الدفعة الواحدة: 1,500 درهم (السعر قابل للتفاوض)"
-        ]
+          'مواقع إلكترونية احترافية ومتجاوبة للشركات والأفراد.',
+          'ابتداءً من 1,200 درهم (السعر قابل للتفاوض)',
+        ],
       },
       {
-        title: "مواقع التجارة الإلكترونية",
-        price: "500 درهم",
-        priceType: "monthly",
+        title: 'مواقع التجارة الإلكترونية',
+        price: '500 درهم',
+        priceType: 'monthly',
         features: [
-          "متاجر إلكترونية مع قوائم المنتجات، سلة المشتريات، الطلبات، وميزات التجارة الإلكترونية.",
-          "سعر متكرر: 500 درهم شهرياً"
-        ]
+          'متاجر إلكترونية مع قوائم المنتجات، سلة المشتريات، الطلبات، وميزات التجارة الإلكترونية.',
+          'سعر متكرر: 500 درهم شهرياً',
+        ],
       },
       {
-        title: "مواقع بتصميم فريد وأنظمة إضافية",
-        price: "2,000 درهم",
-        priceType: "one-time",
+        title: 'مواقع ويب ثلاثية الأبعاد بتصميم فريد ووظائف متكاملة',
+        price: '2,500 درهم',
+        priceType: 'one-time',
         features: [
-          "مواقع إلكترونية بتصميم فريد ومخصص لعلامتك التجارية مع أنظمة إضافية متكاملة.",
-          "سعر الدفعة الواحدة: 2,000 درهم"
-        ]
+          'مواقع ويب تفاعلية ثلاثية الأبعاد بتصميم فريد ومخصص لعلامتك التجارية مع وظائف متقدمة.',
+          'سعر الدفعة الواحدة: 2,500 درهم',
+        ],
       },
       {
-        title: "أنظمة رقمية بسيطة",
-        price: "3,000 درهم",
-        priceType: "one-time",
+        title: 'أنظمة رقمية متقدمة ومعقدة',
+        price: '3,000 درهم',
+        priceType: 'one-time',
         isNegotiable: true,
         features: [
-          "أنظمة وتدفقات عمل رقمية مصممة خصيصاً لحل المشاكل اليومية لأصحاب الأعمال وتوفير الوقت.",
-          "سعر الدفعة الواحدة: 3,000 درهم (السعر قابل للتفاوض)"
-        ]
+          'أنظمة وتدفقات عمل رقمية متقدمة متعددة الوحدات لحل المشاكل المعقدة لأصحاب الأعمال.',
+          'سعر الدفعة الواحدة: 3,000 درهم (السعر قابل للتفاوض)',
+        ],
       },
       {
-        title: "تطبيقات الويب وبلاي ستور وآب ستور",
-        price: "ابتداءً من 3,000 درهم",
-        priceType: "starting-monthly",
-        setupPrice: "3,000 درهم",
-        monthlyPrice: "800 درهم",
+        title: 'تطبيقات الويب وبلاي ستور وآب ستور',
+        price: 'ابتداءً من 3,000 درهم',
+        priceType: 'starting-monthly',
+        setupPrice: '3,000 درهم',
+        monthlyPrice: '800 درهم',
         features: [
-          "تطبيقات ويب مخصصة وأنظمة إدارة الأعمال.",
-          "التطوير/الإنشاء يبدأ من 3,000 درهم",
-          "الصيانة، الاستضافة، التحديثات، إصلاح الأخطاء، والدعم المستمر: 800 درهم/شهرياً"
-        ]
-      }
-    ],
-    whyMe: [
-      {
-        title: 'حلول مخصصة',
-        description: 'كل شركة تحصل على نظام مصمم لاحتياجاتها الخاصة.',
-      },
-      {
-        title: 'أداء سريع',
-        description: 'مواقع وتطبيقات سريعة التحميل.',
-      },
-      {
-        title: 'تصميم حديث',
-        description: 'تصاميم احترافية تبني ثقة العملاء.',
-      },
-      {
-        title: 'تطوير دائم',
-        description: 'ميزات وتحديثات جديدة كلما نما عملك.',
+          'تطبيقات ويب مخصصة وأنظمة إدارة الأعمال.',
+          'التطوير/الإنشاء يبدأ من 3,000 درهم',
+          'الصيانة، الاستضافة، التحديثات، إصلاح الأخطاء، والدعم المستمر: 800 درهم/شهرياً',
+        ],
       },
     ],
     demo: {
-      title: 'اطلب عرضاً تجريبياً مجانياً',
-      subtitle: 'لأصحاب الأعمال الذين يرغبون في رؤية عرض مخصص قبل أن يصبحوا عملاء.',
+      headline: 'هل لديك مشروع في ذهنك؟',
+      subtitle: 'لنصنع شيئاً استثنائياً معاً.',
       businessName: 'اسم العمل',
-      businessNamePlaceholder: 'مثال: شركة الأمل',
-      ownerName: 'اسم المالك',
+      businessNamePlaceholder: 'مثال: Cappuccino7',
+      ownerName: 'الاسم الكامل',
       ownerNamePlaceholder: 'مثال: أحمد محمد',
-      googleMaps: 'رابط خرائط جوجل (مطلوب)',
-      googleMapsPlaceholder: 'https://maps.google.com/...',
-      message: 'رسالة اختيارية',      messagePlaceholder: 'أخبرني قليلاً عن احتياجاتك...',      button: 'اطلب عرضي المجاني',
+      message: 'تفاصيل المشروع',
+      messagePlaceholder: 'اشرح فكرة الموقع أو التطبيق أو النظام الذي تريد بناءه...',
+      button: 'إرسال عبر واتساب',
+      directChannels: 'قنوات التواصل المباشر',
+      readyText: 'جاهز للفتح في واتساب.',
+      openLink: 'فتح الرابط',
     },
     footer: {
       name: "Sami's Digital Solutions",
-      tagline: 'بناء الحلول الرقمية للشركات',
+      tagline: 'مطور Full-Stack · بناء الحلول الرقمية للشركات',
       location: 'المغرب',
     },
   },
