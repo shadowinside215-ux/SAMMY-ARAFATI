@@ -12,6 +12,7 @@ import {
   Workflow,
   Box,
   Code2,
+  MapPin,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { ServiceHoloCanvas } from '../three/ServiceHoloCanvas';
@@ -31,7 +32,7 @@ export const Services = () => {
   const [activeCapability, setActiveCapability] = useState(0);
 
   const capabilityIcons = [Globe, Code2, Cpu, Workflow, Layers, Box];
-  const pricingIcons = [Monitor, ShoppingCart, Globe, Laptop, Smartphone];
+  const pricingIcons = [Monitor, ShoppingCart, Globe, Laptop, Smartphone, MapPin];
 
   const currentCap = t.capabilities[activeCapability] || t.capabilities[0];
 
@@ -137,7 +138,7 @@ export const Services = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(t.services as ServicePricingItem[]).map((service, index) => {
               const Icon = pricingIcons[index % pricingIcons.length];
               return (

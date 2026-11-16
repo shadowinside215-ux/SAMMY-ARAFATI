@@ -162,6 +162,15 @@ export const translations = {
           'Maintenance, hosting, updates, bug fixes, and ongoing support: 800 DH/month',
         ],
       },
+      {
+        title: 'Google Maps Creation & Management',
+        price: '500 DH',
+        priceType: 'one-time',
+        features: [
+          'Full Google Business Profile setup, location verification, and optimized profile management.',
+          'One-time price: 500 DH',
+        ],
+      },
     ],
     demo: {
       headline: 'HAVE A PROJECT IN MIND?',
@@ -344,6 +353,15 @@ export const translations = {
           'Maintenance, hébergement, mises à jour, corrections de bugs et support continu : 800 DH/mois',
         ],
       },
+      {
+        title: 'Création & Gestion Google Maps',
+        price: '500 DH',
+        priceType: 'one-time',
+        features: [
+          'Création complète de fiche Google Business Profile, vérification de localisation et gestion optimisée.',
+          'Prix unique : 500 DH',
+        ],
+      },
     ],
     demo: {
       headline: 'UN PROJET EN TÊTE ?',
@@ -524,6 +542,15 @@ export const translations = {
           'تطبيقات ويب مخصصة وأنظمة إدارة الأعمال.',
           'التطوير/الإنشاء يبدأ من 3,000 درهم',
           'الصيانة، الاستضافة، التحديثات، إصلاح الأخطاء، والدعم المستمر: 800 درهم/شهرياً',
+        ],
+      },
+      {
+        title: 'إنشاء وإدارة خرائط جوجل',
+        price: '500 درهم',
+        priceType: 'one-time',
+        features: [
+          'إنشاء وتوثيق ملف النشاط التجاري على خرائط جوجل وإدارة البيانات والموقع والصور.',
+          'سعر الدفعة الواحدة: 500 درهم',
         ],
       },
     ],
