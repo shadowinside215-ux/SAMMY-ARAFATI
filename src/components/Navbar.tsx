@@ -60,10 +60,6 @@ export const Navbar = () => {
         {/* Zone 1: Brand Logo & Name visible on both mobile and desktop with glowing red illumination */}
         <a
           href="#home"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
           className="text-[13px] sm:text-base md:text-lg font-display font-bold tracking-wide sm:tracking-wider uppercase text-[#FF2020] red-text-glow flex items-center gap-2.5 sm:gap-3 min-w-0 focus-visible:outline focus-visible:outline-[#FF2020] group"
         >
           {logoUrl && (
@@ -71,6 +67,7 @@ export const Navbar = () => {
               src={logoUrl}
               alt="Sami's Digital Solutions"
               referrerPolicy="no-referrer"
+              onError={() => setLogoUrl(null)}
               className="h-8 sm:h-10 md:h-11 w-auto object-contain shrink-0 drop-shadow-[0_0_14px_rgba(255,32,32,0.85)] transition-transform duration-200 group-hover:scale-[1.03]"
             />
           )}

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Lenis from 'lenis';
 import { LanguageProvider } from './context/LanguageContext';
 import { FuturisticCanvas } from './three/FuturisticCanvas';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutMe } from './components/AboutMe';
@@ -52,6 +53,21 @@ const Portfolio = () => {
       updateNativeScroll();
     });
 
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest('a[href^="#"]') as HTMLAnchorElement | null;
+      if (!anchor) return;
+      const hash = anchor.getAttribute('href');
+      if (!hash || hash === '#') return;
+      const dest = document.querySelector(hash);
+      if (dest instanceof HTMLElement) {
+        e.preventDefault();
+        lenis.scrollTo(dest, { offset: 0 });
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
+
     let rafId = 0;
     function raf(time: number) {
       lenis.raf(time);
@@ -61,6 +77,7 @@ const Portfolio = () => {
 
     return () => {
       cancelAnimationFrame(rafId);
+      document.removeEventListener('click', handleAnchorClick);
       window.removeEventListener('scroll', updateNativeScroll);
       window.removeEventListener('resize', updateNativeScroll);
       lenis.destroy();
@@ -70,7 +87,9 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-[#000000] text-white relative overflow-x-hidden flex flex-col selection:bg-[#FF0000]/40 selection:text-white">
       {/* Persistent Real-Time Three.js 3D Machine Backdrop */}
-      <FuturisticCanvas scrollProgressRef={scrollProgressRef} />
+      <ErrorBoundary fallback={null}>
+        <FuturisticCanvas scrollProgressRef={scrollProgressRef} />
+      </ErrorBoundary>
 
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
@@ -89,20 +108,22 @@ const Portfolio = () => {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <Suspense
-        fallback={
-          <div className="min-h-screen bg-[#000000] flex items-center justify-center text-[#FF2020] font-mono text-xs uppercase tracking-widest">
-            Loading...
-          </div>
-        }
-      >
-        <Routes>
-          <Route path="/" element={<Portfolio />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-        </Routes>
-      </Suspense>
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <Suspense
+          fallback={
+            <div className="min-h-screen bg-[#000000] flex items-center justify-center text-[#FF2020] font-mono text-xs uppercase tracking-widest">
+              Loading...
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/" element={<Portfolio />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Routes>
+        </Suspense>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }

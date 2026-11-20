@@ -51,20 +51,39 @@ export function afterDraw(
 }
 
 export function disposeObject3D(root: THREE.Object3D): void {
+  const disposedGeometries = new Set<THREE.BufferGeometry>();
+  const disposedMaterials = new Set<THREE.Material>();
+  const disposedTextures = new Set<THREE.Texture>();
+
   root.traverse((obj) => {
     const mesh = obj as THREE.Mesh;
-    if (mesh.geometry) {
+    if (mesh.geometry && !disposedGeometries.has(mesh.geometry)) {
+      disposedGeometries.add(mesh.geometry);
       mesh.geometry.dispose();
     }
     if (mesh.material) {
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       for (const m of mats) {
+        if (disposedMaterials.has(m)) continue;
+        disposedMaterials.add(m);
+
         for (const key of Object.keys(m)) {
           const val = (m as unknown as Record<string, unknown>)[key];
-          if (val instanceof THREE.Texture) {
+          if (val instanceof THREE.Texture && !disposedTextures.has(val)) {
+            disposedTextures.add(val);
             val.dispose();
           }
         }
+
+        if (m instanceof THREE.ShaderMaterial && m.uniforms) {
+          for (const uniform of Object.values(m.uniforms)) {
+            if (uniform?.value instanceof THREE.Texture && !disposedTextures.has(uniform.value)) {
+              disposedTextures.add(uniform.value);
+              uniform.value.dispose();
+            }
+          }
+        }
+
         m.dispose();
       }
     }

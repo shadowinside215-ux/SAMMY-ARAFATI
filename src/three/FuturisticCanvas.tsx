@@ -4,6 +4,7 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import {
   detectSoftwareWebGL,
   prefersReducedMotion,
@@ -56,8 +57,9 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
       return;
     }
 
+    const pixelRatio = isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
     renderer.setSize(width, height);
-    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+    renderer.setPixelRatio(pixelRatio);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.15;
@@ -120,14 +122,17 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
     let bloomPass: UnrealBloomPass | null = null;
     if (!isSoftwareGl && !isMobile) {
       composer = new EffectComposer(renderer);
+      composer.setPixelRatio(pixelRatio);
+      composer.setSize(width, height);
       composer.addPass(new RenderPass(scene, camera));
       bloomPass = new UnrealBloomPass(
         new THREE.Vector2(width, height),
-        0.52,
         0.48,
-        0.65
+        0.45,
+        0.68
       );
       composer.addPass(bloomPass);
+      composer.addPass(new OutputPass());
     }
 
     // Pre-warm shaders
@@ -140,6 +145,7 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
     const mouseSmoothed = { x: 0, y: 0 };
 
     const handlePointerMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return;
       mouseTarget.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouseTarget.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
@@ -148,33 +154,35 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
     const handleResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
+      const nextRatio = isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(nextRatio);
       renderer.setSize(width, height);
-      if (composer) composer.setSize(width, height);
-      if (bloomPass) bloomPass.resolution.set(width, height);
+      if (composer) {
+        composer.setPixelRatio(nextRatio);
+        composer.setSize(width, height);
+      }
+      if (bloomPass) {
+        bloomPass.resolution.set(width, height);
+      }
     };
     window.addEventListener('resize', handleResize);
 
-    const onContextLost = (e: Event) => {
-      e.preventDefault();
-      setContextLost(true);
-    };
-    const onContextRestored = () => {
-      setContextLost(false);
-    };
-    renderer.domElement.addEventListener('webglcontextlost', onContextLost);
-    renderer.domElement.addEventListener('webglcontextrestored', onContextRestored);
-
-    const clock = new THREE.Clock();
     let frameId = 0;
     let disposed = false;
+    let isContextLost = false;
+    let lastTimeMs = performance.now();
+    const startTimeMs = lastTimeMs;
 
     const tick = () => {
-      if (disposed) return;
+      if (disposed || isContextLost) return;
 
-      const delta = Math.min(clock.getDelta(), 0.05);
-      const elapsed = clock.getElapsedTime();
+      const nowMs = performance.now();
+      const delta = Math.min(Math.max((nowMs - lastTimeMs) / 1000, 0.001), 0.05);
+      const elapsed = (nowMs - startTimeMs) / 1000;
+      lastTimeMs = nowMs;
+
       const scroll = Math.max(0, Math.min(1, scrollProgressRef.current));
 
       // Smooth pointer parallax
@@ -183,7 +191,6 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
       mouseSmoothed.y = THREE.MathUtils.damp(mouseSmoothed.y, mouseTarget.y * motionMult, 4.5, delta);
 
       // Camera choreography across sections of the machine
-      // 0.0 (Hero) -> 0.25 (About) -> 0.5 (Projects) -> 0.75 (Services) -> 1.0 (Contact Core)
       const camZ = 9.2 - Math.sin(scroll * Math.PI * 0.85) * 3.2 - scroll * 1.1;
       const camX = Math.sin(scroll * Math.PI * 2.1) * 2.8 + mouseSmoothed.x * 1.15;
       const camY = 0.75 + Math.cos(scroll * Math.PI * 1.6) * 1.25 + mouseSmoothed.y * 0.7;
@@ -232,7 +239,8 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
           const mat = panel.material as THREE.ShaderMaterial;
           mat.uniforms.uTime.value = elapsed;
           panel.position.y =
-            (panel.userData.baseY as number) + Math.sin(elapsed * 1.1 + (panel.userData.phase as number)) * 0.16;
+            (panel.userData.baseY as number) +
+            Math.sin(elapsed * 1.1 + (panel.userData.phase as number)) * 0.16;
         }
 
         // Particle drift
@@ -263,6 +271,24 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
       }
     };
 
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      isContextLost = true;
+      cancelAnimationFrame(frameId);
+      clearTimeout(frameId);
+      setContextLost(true);
+    };
+
+    const onContextRestored = () => {
+      isContextLost = false;
+      lastTimeMs = performance.now();
+      setContextLost(false);
+      tick();
+    };
+
+    renderer.domElement.addEventListener('webglcontextlost', onContextLost);
+    renderer.domElement.addEventListener('webglcontextrestored', onContextRestored);
+
     tick();
 
     return () => {
@@ -286,11 +312,10 @@ export const FuturisticCanvas: React.FC<FuturisticCanvasProps> = ({ scrollProgre
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none bg-[#000000]">
-      {!contextLost ? (
-        <div ref={mountRef} className="w-full h-full" />
-      ) : (
+      <div ref={mountRef} className={`w-full h-full ${contextLost ? 'opacity-0' : 'opacity-100'}`} />
+      {contextLost && (
         <div
-          className="w-full h-full"
+          className="absolute inset-0 w-full h-full"
           style={{
             background:
               'radial-gradient(circle at 50% 42%, rgba(255,0,0,0.18) 0%, rgba(139,0,0,0.08) 32%, #000000 72%)',
